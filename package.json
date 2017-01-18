@@ -1,0 +1,27 @@
+{
+  "name": "simple-url-parser",
+  "version": "2.0.0",
+  "description": "A small module to parse URLs",
+  "main": "js/index.js",
+  "files": [
+    "js/"
+  ],
+  "typings": "js/index",
+  "scripts": {
+    "build": "tsc -p ts",
+    "prepublish": "npm test",
+    "test": "mocha js/**/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:Dashlane/url-parser.git"
+  },
+  "author": "Dashlane",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/mocha": "^2.2.38",
+    "@types/should": "^8.1.30",
+    "mocha": "^3.2.0",
+    "should": "^11.1.2"
+  }
+}
