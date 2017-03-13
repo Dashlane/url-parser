@@ -4,5 +4,5 @@ node_js:
 before_script:
   - npm i
   - npm install -g tsc
-  - npm build
+  - tsc -p ts
 script: npm test
