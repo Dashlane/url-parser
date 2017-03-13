@@ -9,7 +9,7 @@
   "typings": "js/index",
   "scripts": {
     "build": "tsc -p ts",
-    "test": "build; mocha js/**/*.test.js"
+    "test": "mocha js/**/*.test.js"
   },
   "repository": {
     "type": "git",
