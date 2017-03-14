@@ -4,6 +4,9 @@
 Lightweight module used to parse URLs,
 so that information such as the domain can be easily extracted.
 
+### Install
+
+`npm i [--save] simple-url-parser`
 
 ### API
 
