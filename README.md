@@ -61,3 +61,10 @@ parsedUrl.rootDomainName; // -> amazonaws
 
 ```
 
+
+
+### Maintainers
+
+- [Damien Rajon](https://github.com/pyrho)
+- [Loïc Guychard](https://github.com/lguychard)
+- [Charly Poly](https://github.com/wittydeveloper)
