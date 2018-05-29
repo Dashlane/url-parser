@@ -9,7 +9,8 @@
   "typings": "js/index",
   "scripts": {
     "build": "tsc -p ts",
-    "test": "mocha js/**/*.test.js"
+    "test": "mocha -r ts-node/register ts/**/*.test.ts",
+    "prepublish": "npm build && npm test"
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,9 @@
     "@types/mocha": "^2.2.38",
     "@types/should": "^8.1.30",
     "mocha": "^3.2.0",
-    "should": "^11.1.2"
+    "should": "^11.1.2",
+    "ts-node": "^3.3.0",
+    "typescript": "^2.4.2"
   },
   "publishConfig": {
     "access": "public"

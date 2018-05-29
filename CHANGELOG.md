@@ -1,10 +1,14 @@
 CHANGELOG.md
 ============
+3.0.0
+------
+* Added `gob` to multiextensions
+* Add `isUrl` utils functions to know if a given string is a URL
+* Add `subDomainName` to `ParsedUrl` interface
+
 2.0.0
 ------
 * breaking changes to `extractFilepathFromUrl`, added new `extractFullFilepathFromUrl` method
-
-
 
 1.1.1
 ------

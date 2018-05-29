@@ -17,6 +17,11 @@ so that information such as the domain can be easily extracted.
 - `function extractRootDomain(url: string): string;`
 - `function extractRootDomainName(url: string): string;`
 - `function getParsedUrl(url: string): ParsedUrl;`
+- `function isUrlWithIPv4(url: string): boolean;`
+- `function isUrlWithIPv6(url: string): booleam;`
+- `function isUrlWithIP(url: string): boolean;`
+- `function isUrlWithDomain(url: string): booleam;`
+- `function isUrl(url: string): booleam;`
 
 ```typescript
 export interface ParsedUrl {
@@ -24,6 +29,7 @@ export interface ParsedUrl {
     fullDomain: string;
     rootDomain: string;
     rootDomainName: string;
+    subDomainName: string;
 }
 ```
 
@@ -58,6 +64,7 @@ parsedUrl.url; // -> https://s3-eu-west-1.amazonaws.com:9090/signin_prompt.html
 parsedUrl.fullDomain; // -> s3-eu-west-1.amazonaws.com
 parsedUrl.rootDomain; // -> amazonaws.com
 parsedUrl.rootDomainName; // -> amazonaws
+parsedUrl.subDomainName; // -> s3-eu-west-1
 
 ```
 
