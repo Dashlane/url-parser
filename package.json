@@ -10,6 +10,7 @@
   "scripts": {
     "build": "tsc -p ts",
     "test": "mocha -r ts-node/register ts/**/*.test.ts",
+    "ci": "npm test && npm audit",
     "prepublish": "npm build && npm test"
   },
   "repository": {
