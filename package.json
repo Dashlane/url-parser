@@ -10,6 +10,7 @@
   "scripts": {
     "build": "tsc -p ts",
     "test": "mocha -r ts-node/register ts/**/*.test.ts",
+    "ci": "npm test && npm audit",
     "prepublish": "npm build && npm test"
   },
   "repository": {
@@ -19,12 +20,12 @@
   "author": "Dashlane",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@types/mocha": "^2.2.38",
-    "@types/should": "^8.1.30",
-    "mocha": "^3.2.0",
-    "should": "^11.1.2",
-    "ts-node": "^3.3.0",
-    "typescript": "^2.4.2"
+    "@types/mocha": "^5.2.6",
+    "@types/should": "^13.0.0",
+    "mocha": "^5.2.0",
+    "should": "^13.2.3",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.3.3333"
   },
   "publishConfig": {
     "access": "public"

@@ -5,4 +5,4 @@ before_script:
   - npm i
   - npm install -g typescript
   - tsc -p ts
-script: npm test
+script: npm run ci
