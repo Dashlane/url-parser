@@ -34,7 +34,9 @@
     "url": "https://github.com/Dashlane/url-parser/issues"
   },
   "homepage": "https://github.com/Dashlane/url-parser#readme",
-  "dependencies": {},
+  "dependencies": {
+    "tldts": "^4.0.2"
+  },
   "keywords": [
     "url-parser",
     "url",
