@@ -1,6 +1,10 @@
 CHANGELOG.md
 ============
 
+WIP
+----
+* Add `extractNakedDomain` utils function to strip the `www` subdomain
+
 3.1.0
 -----
 * Add tldts to handle our public suffix and way more

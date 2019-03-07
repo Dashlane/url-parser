@@ -84,6 +84,11 @@ export function extractFullDomain(url: string): string {
     }
 }
 
+export function extractNakedDomain(url: string): string {
+    const fullDomain = extractFullDomain(url);
+    return fullDomain.replace(/^www\./, '');
+}
+
 export function extractRootDomain(url: string): string {
     const parsedUrl = parse(url);
     if (domainIsIP(parsedUrl.hostname)) {
