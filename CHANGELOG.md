@@ -1,7 +1,7 @@
 CHANGELOG.md
 ============
 
-WIP
+3.1.0
 -----
 * Add tldts to handle our public suffix and way more
 
