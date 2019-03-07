@@ -105,10 +105,14 @@ describe('UrlUtils', () => {
         });
 
         it('should extract the domain when it has multi-extensions', () => {
-            const url1 = 'www.domain3.judiciary.uk';
-            UrlUtils.extractRootDomain(url1).should.eql('domain3.judiciary.uk');
+            const url1 = 'www.domain3.gov.uk';
+            UrlUtils.extractRootDomain(url1).should.eql('domain3.gov.uk');
             const url2 = 'www.domain3.qc.ca';
             UrlUtils.extractRootDomain(url2).should.eql('domain3.qc.ca');
+            const url3 = 'www.city.takayama.gifu.jp';
+            UrlUtils.extractRootDomain(url3).should.eql('city.takayama.gifu.jp');
+            const url4 = 'https://www.impots.gouv.fr';
+            UrlUtils.extractRootDomain(url4).should.eql('impots.gouv.fr');
         });
 
     });
@@ -130,6 +134,15 @@ describe('UrlUtils', () => {
         it('should extract the domain name when there is no trailing path', () => {
             const url = 'http://www.google.com';
             UrlUtils.extractRootDomainName(url).should.eql('google');
+        });
+
+        it('should extract the domain name when it has multi-extensions', () => {
+            const url1 = 'www.domain3.gov.uk';
+            UrlUtils.extractRootDomainName(url1).should.eql('domain3');
+            const url2 = 'www.city.takayama.gifu.jp';
+            UrlUtils.extractRootDomainName(url2).should.eql('city');
+            const url3 = 'https://www.impots.gouv.fr';
+            UrlUtils.extractRootDomainName(url3).should.eql('impots');
         });
 
     });
@@ -164,9 +177,14 @@ describe('UrlUtils', () => {
         it('should extract the full domain but discard the port', () => {
             const url = 'http://parml20.dashlane.com:8000/login_std.html';
             UrlUtils.extractFullDomain(url).should.eql('parml20.dashlane.com');
-
         });
 
+        it('should extract the full domain name when it has multi-extensions', () => {
+            const url1 = 'www.city.takayama.gifu.jp';
+            UrlUtils.extractFullDomain(url1).should.eql('www.city.takayama.gifu.jp');
+            const url2 = 'https://www.impots.gouv.fr';
+            UrlUtils.extractFullDomain(url2).should.eql('www.impots.gouv.fr');
+        });
     });
 
     describe('extractSubDomainName', () => {
@@ -255,18 +273,18 @@ describe('UrlUtils', () => {
             const url = 'http://[1080:0:0:0:8:800:200C:417A]:8000/index.html';
             const parsedUrl = UrlUtils.getParsedUrl(url);
             parsedUrl.url.should.eql(url);
-            parsedUrl.fullDomain.should.eql('[1080:0:0:0:8:800:200C:417A]');
-            parsedUrl.rootDomain.should.eql('[1080:0:0:0:8:800:200C:417A]');
-            parsedUrl.rootDomainName.should.eql('[1080:0:0:0:8:800:200C:417A]');
+            parsedUrl.fullDomain.should.eql('1080:0:0:0:8:800:200c:417a');
+            parsedUrl.rootDomain.should.eql('1080:0:0:0:8:800:200c:417a');
+            parsedUrl.rootDomainName.should.eql('1080:0:0:0:8:800:200c:417a');
         });
 
         it('should correctly parse an IPv6-based url', () => {
             const url = 'http://[1080:0:0:0:8:800:200C:417A]/index.html';
             const parsedUrl = UrlUtils.getParsedUrl(url);
             parsedUrl.url.should.eql(url);
-            parsedUrl.fullDomain.should.eql('[1080:0:0:0:8:800:200C:417A]');
-            parsedUrl.rootDomain.should.eql('[1080:0:0:0:8:800:200C:417A]');
-            parsedUrl.rootDomainName.should.eql('[1080:0:0:0:8:800:200C:417A]');
+            parsedUrl.fullDomain.should.eql('1080:0:0:0:8:800:200c:417a');
+            parsedUrl.rootDomain.should.eql('1080:0:0:0:8:800:200c:417a');
+            parsedUrl.rootDomainName.should.eql('1080:0:0:0:8:800:200c:417a');
         });
     });
 

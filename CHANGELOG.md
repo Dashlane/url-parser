@@ -1,5 +1,10 @@
 CHANGELOG.md
 ============
+
+WIP
+-----
+* Add tldts to handle our public suffix and way more
+
 3.0.0
 ------
 * Added `gob` to multiextensions
