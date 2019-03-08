@@ -187,6 +187,31 @@ describe('UrlUtils', () => {
         });
     });
 
+    describe('extractNakedDomain', () => {
+
+        it('should strip the www in the nakedDomain', () => {
+            const url = 'http://www.lolerz.com/my/toto/images/latete.jpg';
+            UrlUtils.extractNakedDomain(url).should.eql('lolerz.com');
+        });
+
+        it('should include the www2 in the nakedDomain', () => {
+            const url = 'http://www2.toto.com/my/toto/images/latete.jpg';
+            UrlUtils.extractNakedDomain(url).should.eql('www2.toto.com');
+        });
+
+        it('should return the full domain when there is no www', () => {
+            const url = 'https://s3-eu-west-1.amazonaws.com/dashlane-static-resources/webTesting/signin_prompt.html';
+            UrlUtils.extractNakedDomain(url).should.eql('s3-eu-west-1.amazonaws.com');
+        });
+
+        context('when www is not the first subdomain', () => {
+            it('should include the www in the nakedDomain', () => {
+                const url = 'http://subdomain.www.toto.com/my/toto/images/latete.jpg';
+                UrlUtils.extractNakedDomain(url).should.eql('subdomain.www.toto.com');
+            });
+        });
+    });
+
     describe('extractSubDomainName', () => {
         it('should return null on an url with no subdomain', () => {
             const url = 'http://google.com';

@@ -14,6 +14,7 @@ so that information such as the domain can be easily extracted.
 - `function extractFilepathFromUrl(url: string): string;`
 - `function extractFullFilepathFromUrl(url: string): string;`
 - `function extractFullDomain(url: string): string;`
+- `function extractNakedDomain(url: string): string;`
 - `function extractRootDomain(url: string): string;`
 - `function extractRootDomainName(url: string): string;`
 - `function getParsedUrl(url: string): ParsedUrl;`
@@ -56,6 +57,8 @@ UrlUtils.extractRootDomain(url); // -> toto.com
 var url = 'https://fbcdn-dragon-a.akamaihd.net/hphotos-ak-xpa1/t39.2365-6/_n.png';
 UrlUtils.extractRootDomainName(url); // -> akamaihd
 
+var url = 'https://www.amazon.com/';
+UrlUtils.extractNakedDomain(url); // -> amazon.com
 
 
 var url = 'https://s3-eu-west-1.amazonaws.com:9090/signin_prompt.html';
