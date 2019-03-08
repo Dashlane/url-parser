@@ -1,8 +1,8 @@
 CHANGELOG.md
 ============
 
-WIP
-----
+3.2.1
+-----
 * Add `extractNakedDomain` utils function to strip the `www` subdomain
 * Handle properly rootDomain, fulDomain and rootDomainName for `localhost`
 
