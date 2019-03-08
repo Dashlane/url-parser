@@ -311,6 +311,15 @@ describe('UrlUtils', () => {
             parsedUrl.rootDomain.should.eql('1080:0:0:0:8:800:200c:417a');
             parsedUrl.rootDomainName.should.eql('1080:0:0:0:8:800:200c:417a');
         });
+
+        it('should correctly parse an localhost url', () => {
+            const url = 'localhost:3003/server?reload=true';
+            const parsedUrl = UrlUtils.getParsedUrl(url);
+            parsedUrl.url.should.eql(url);
+            parsedUrl.fullDomain.should.eql('localhost');
+            parsedUrl.rootDomain.should.eql('localhost');
+            parsedUrl.rootDomainName.should.eql('localhost');
+        });
     });
 
     describe('isUrlWithIPv4', () => {
