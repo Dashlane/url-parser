@@ -73,7 +73,7 @@ export function extractFullFilepathFromUrl(url: string): string {
 
 export function extractFullDomain(url: string): string {
     const parsedUrl = parse(url);
-    if (domainIsIP(parsedUrl.hostname)) {
+    if (domainIsIP(parsedUrl.hostname)  || parsedUrl.hostname === 'localhost') {
         return parsedUrl.hostname;
     } else {
         if(parsedUrl.subdomain) {
@@ -91,7 +91,7 @@ export function extractNakedDomain(url: string): string {
 
 export function extractRootDomain(url: string): string {
     const parsedUrl = parse(url);
-    if (domainIsIP(parsedUrl.hostname)) {
+    if (domainIsIP(parsedUrl.hostname)  || parsedUrl.hostname === 'localhost') {
         return parsedUrl.hostname;
     } else {
         return parsedUrl.domain;
@@ -100,10 +100,10 @@ export function extractRootDomain(url: string): string {
 
 export function extractRootDomainName(url: string): string {
     const parsedUrl = parse(url);
-    if (domainIsIP(parsedUrl.hostname)) {
+    if (domainIsIP(parsedUrl.hostname) || parsedUrl.hostname === 'localhost') {
         return parsedUrl.hostname;
     } else {
-        return parsedUrl.domain.substring(0, parsedUrl.domain.indexOf(`.${parsedUrl.publicSuffix}`));
+        return parsedUrl.publicSuffix ? parsedUrl.domain.substring(0, parsedUrl.domain.indexOf(`.${parsedUrl.publicSuffix}`)) : parsedUrl.domain;
     }
 }
 
