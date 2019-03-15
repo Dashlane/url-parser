@@ -154,8 +154,6 @@ export function isUrlWithIP(url: string): boolean {
 }
 
 export function isUrlWithDomain(url: string): boolean {
-    // Regexps from the C++ file Desktop/CppLibrairies/SourceCode/KWMacUI/UI Applet/Tools/URLValidator.m
-    // Used in C++ in the function isValidUrlOrIP(url) to validate datacapture of a URL
     const urlRegexps = [
         /^(?:https?:\/\/)?(?:[a-z0-9\-_]{1,63}\.)+(?:[a-z0-9\-_]{1,63})(?::[0-9]{1,5})?(?:\/.*)?$/i,
         /^(?:https?:\/\/)?(?:[a-z0-9\-_]{1,63})(?::[0-9]{1,5})?(?:\/.*)?$/i,
