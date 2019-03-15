@@ -10,6 +10,9 @@ const protocols: string[] = [
 ];
 
 function domainIsIPv4(hostname: string): boolean {
+    if (!hostname) {
+        return false;
+    }
     // ex with an url http://54.77.248.115.google.com
     // hostname 54.77.248.115
     const hostnameParts = hostname.split('.');
@@ -25,6 +28,9 @@ function domainIsIPv4(hostname: string): boolean {
 }
 
 function domainIsIPv6(hostname: string): boolean {
+    if (!hostname) {
+        return false;
+    }
     // ex with an url http://[1080:0:0:0:8:800:200C:417A]
     // hostname 1080:0:0:0:8:800:200C:417A
     const hostnameParts = hostname.split(':');
@@ -43,18 +49,26 @@ function domainIsIPv6(hostname: string): boolean {
     return checkFormat && checkBytes;
 }
 
-function domainIsIP(url: string): boolean {
-    const hostname = parse(url).hostname;
+function domainIsIP(hostname: string): boolean {
+    if (!hostname) {
+        return false;
+    }
     return domainIsIPv4(hostname) || domainIsIPv6(hostname);
 }
 
 export function extractFilepathFromUrl(url: string): string {
+    if (!url) {
+        return null;
+    }
     let ret = extractFullFilepathFromUrl(url);
     // Strip the querystrings
     return ret.split('?')[0];
 }
 
 export function extractFullFilepathFromUrl(url: string): string {
+    if (!url) {
+        return null;
+    }
     let ret: string = url;
 
     for (let i = 0; i < protocols.length; i++) {
@@ -72,6 +86,9 @@ export function extractFullFilepathFromUrl(url: string): string {
 }
 
 export function extractFullDomain(url: string): string {
+    if (!url) {
+        return null;
+    }
     const parsedUrl = parse(url);
     if (domainIsIP(parsedUrl.hostname)  || parsedUrl.hostname === 'localhost') {
         return parsedUrl.hostname;
@@ -83,13 +100,18 @@ export function extractFullDomain(url: string): string {
         }
     }
 }
-
 export function extractNakedDomain(url: string): string {
     const fullDomain = extractFullDomain(url);
+    if (!url) {
+        return null;
+    }
     return fullDomain.replace(/^www\./, '');
 }
 
 export function extractRootDomain(url: string): string {
+    if (!url) {
+        return null;
+    }
     const parsedUrl = parse(url);
     if (domainIsIP(parsedUrl.hostname)  || parsedUrl.hostname === 'localhost') {
         return parsedUrl.hostname;
@@ -99,6 +121,9 @@ export function extractRootDomain(url: string): string {
 }
 
 export function extractRootDomainName(url: string): string {
+    if (!url) {
+        return null;
+    }
     const parsedUrl = parse(url);
     if (domainIsIP(parsedUrl.hostname) || parsedUrl.hostname === 'localhost') {
         return parsedUrl.hostname;
@@ -110,6 +135,9 @@ export function extractRootDomainName(url: string): string {
 }
 
 export function extractSubDomainName(url: string): string {
+    if (!url) {
+        return null;
+    }
     const parsedUrl = parse(url);
     const subdomain = parsedUrl.subdomain;
 
@@ -138,22 +166,34 @@ export function getParsedUrl(url: string): ParsedUrl {
 }
 
 export function isUrlWithIPv4(url: string): boolean {
+    if (!url) {
+        return false;
+    }
     const { hostname } = parse(url);
     return domainIsIPv4(hostname);
 }
 
 export function isUrlWithIPv6(url: string): boolean {
+    if (!url) {
+        return false;
+    }
     const { hostname } = parse(url);
     return domainIsIPv6(hostname);
 }
 
 
 export function isUrlWithIP(url: string): boolean {
+    if (!url) {
+        return false;
+    }
     const { hostname } = parse(url);
     return domainIsIP(hostname);
 }
 
 export function isUrlWithDomain(url: string): boolean {
+    if (!url) {
+        return false;
+    }
     const urlRegexps = [
         /^(?:https?:\/\/)?(?:[a-z0-9\-_]{1,63}\.)+(?:[a-z0-9\-_]{1,63})(?::[0-9]{1,5})?(?:\/.*)?$/i,
         /^(?:https?:\/\/)?(?:[a-z0-9\-_]{1,63})(?::[0-9]{1,5})?(?:\/.*)?$/i,

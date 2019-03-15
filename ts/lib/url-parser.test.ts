@@ -48,6 +48,14 @@ describe('UrlUtils', () => {
             UrlUtils.extractFilepathFromUrl(url).should.eql('/index.html');
         });
 
+        it('should return null if the url is null', () => {
+            (UrlUtils.extractFilepathFromUrl(null) === null).should.be.True();
+        });
+
+        it('should return null if the url is empty', () => {
+            (UrlUtils.extractFilepathFromUrl('') === null).should.be.True();
+        });
+
     });
 
     describe('extractFullFilepathFromUrl', () => {
@@ -70,6 +78,15 @@ describe('UrlUtils', () => {
             const url = 'http://www.allrecipes.com/account/forgotpassword/?layout=Standard&amp;loginReferrerUrl=https%3A%2F%2Fwww.allrecipes.com%2F';
             UrlUtils.extractFullFilepathFromUrl(url).should.eql('/account/forgotpassword/?layout=Standard&amp;loginReferrerUrl=https%3A%2F%2Fwww.allrecipes.com%2F');
         });
+        
+        it('should return null if the url is null', () => {
+            (UrlUtils.extractFullFilepathFromUrl(null) === null).should.be.True();
+        });
+        
+        it('should return null if the url is empty', () => {
+            (UrlUtils.extractFullFilepathFromUrl('') === null).should.be.True();
+        });
+        
     });
 
     describe('extractRootDomain', () => {
@@ -115,6 +132,14 @@ describe('UrlUtils', () => {
             UrlUtils.extractRootDomain(url4).should.eql('impots.gouv.fr');
         });
 
+        it('should return null when the domain is null', () => {
+            (UrlUtils.extractRootDomain(null) === null).should.be.True();
+        });
+
+        it('should return null when the domain is an empty string', () => {
+            (UrlUtils.extractRootDomain('') === null).should.be.True();
+        });
+
     });
 
     describe('extractRootDomainName', () => {
@@ -143,6 +168,14 @@ describe('UrlUtils', () => {
             UrlUtils.extractRootDomainName(url2).should.eql('city');
             const url3 = 'https://www.impots.gouv.fr';
             UrlUtils.extractRootDomainName(url3).should.eql('impots');
+        });
+
+        it('should return null when the domain is null', () => {
+            (UrlUtils.extractRootDomainName(null) === null).should.be.True();
+        });
+
+        it('should return null when the domain is an empty string', () => {
+            (UrlUtils.extractRootDomainName('') === null).should.be.True();
         });
 
     });
@@ -185,6 +218,16 @@ describe('UrlUtils', () => {
             const url2 = 'https://www.impots.gouv.fr';
             UrlUtils.extractFullDomain(url2).should.eql('www.impots.gouv.fr');
         });
+
+        it('should return null when the url is null', () => {
+            (UrlUtils.extractFullDomain(null) === null).should.be.True();
+        });
+
+        it('should return null when the url is an empty string', () => {
+            (UrlUtils.extractFullDomain('') === null).should.be.True();
+        });
+
+
     });
 
     describe('extractNakedDomain', () => {
@@ -210,6 +253,14 @@ describe('UrlUtils', () => {
                 UrlUtils.extractNakedDomain(url).should.eql('subdomain.www.toto.com');
             });
         });
+
+        it('should return null when the domain is null', () => {
+            (UrlUtils.extractNakedDomain(null) === null).should.be.True();
+        });
+        
+        it('should return null when the domain is an empty string', () => {
+            (UrlUtils.extractNakedDomain('') === null).should.be.True();
+        });
     });
 
     describe('extractSubDomainName', () => {
@@ -226,6 +277,12 @@ describe('UrlUtils', () => {
             UrlUtils.extractSubDomainName(url).should.eql('accounts');
             const url2 = 'http://54.77.248.115.google.com:8080/page/index.html';
             UrlUtils.extractSubDomainName(url2).should.eql('54.77.248.115');
+        });
+        it('should return null when the domain is null', () => {
+            (UrlUtils.extractSubDomainName(null) === null).should.be.True();
+        });
+        it('should return null when the domain is an empty string', () => {
+            (UrlUtils.extractSubDomainName('') === null).should.be.True();
         });
     });
 
@@ -329,6 +386,23 @@ describe('UrlUtils', () => {
             parsedUrl.rootDomain.should.eql('localhost');
             parsedUrl.rootDomainName.should.eql('localhost');
         });
+
+        it('should return null when the domain is null', () => {
+            const parsedUrl = UrlUtils.getParsedUrl(null);
+            (parsedUrl.url === null).should.be.True();
+            (parsedUrl.fullDomain === null).should.be.True();
+            (parsedUrl.rootDomain === null).should.be.True();
+            (parsedUrl.rootDomainName === null).should.be.True();
+        });
+
+        it('should return null when the domain is an empty string', () => {
+            const url = '';
+            const parsedUrl = UrlUtils.getParsedUrl(url);
+            parsedUrl.url.should.eql(url);
+            (parsedUrl.fullDomain === null).should.be.True();
+            (parsedUrl.rootDomain === null).should.be.True();
+            (parsedUrl.rootDomainName === null).should.be.True();
+        });
     });
 
     describe('isUrlWithIPv4', () => {
@@ -351,6 +425,8 @@ describe('UrlUtils', () => {
                 'welcome toto',
                 'welcome',
                 '555.34.54.241',  // IPv4 only goes up to 255
+                null,
+                ''
             ];
             urls.forEach(url => UrlUtils.isUrlWithIPv4(url).should.be.false());
         });
@@ -381,6 +457,8 @@ describe('UrlUtils', () => {
                 'welcome',
                 '[1080:0:0:0:8:800:200C:GGGG]',   // GGGG is not hexadecimal
                 '[A339D:0:0:0:8:800:200C:417A]',  // IPv6 only goes up to FFFF
+                null,
+                '',
             ];
             urls.forEach(url => UrlUtils.isUrlWithIPv6(url).should.be.false());
         });
@@ -410,6 +488,8 @@ describe('UrlUtils', () => {
                 'https://google.com/signin?redirect=/home',
                 'welcome toto',
                 'welcome',
+                null,
+                '',
             ];
             urls.forEach(url => UrlUtils.isUrlWithIP(url).should.be.false());
         });
@@ -433,6 +513,8 @@ describe('UrlUtils', () => {
                 '54.77.248.115:8080',
                 'http://[1080:0:0:0:8:800:200C]/index.html',
                 'welcome toto',
+                null,
+                '',
             ];
             urls.forEach(url => UrlUtils.isUrlWithDomain(url).should.be.false());
         });
@@ -457,6 +539,8 @@ describe('UrlUtils', () => {
                 'welcome toto',
                 'http://[1080:0:0]/index.html',
                 '/toto/welcome',
+                null,
+                ''
             ];
             urls.forEach(url => UrlUtils.isUrl(url).should.be.false());
         });
