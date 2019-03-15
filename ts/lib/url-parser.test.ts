@@ -231,6 +231,15 @@ describe('UrlUtils', () => {
 
     describe('getParsedUrl', () => {
 
+        it('should not throw when provided with an url without an extension', () => {
+            const url = 'http://notvalid';
+            const parsedUrl = UrlUtils.getParsedUrl(url);
+            parsedUrl.url.should.eql(url);
+            (parsedUrl.fullDomain === null).should.be.True();
+            (parsedUrl.rootDomain === null).should.be.True();
+            (parsedUrl.rootDomainName === null).should.be.True();
+        });
+
         it('should correctly parse an url', () => {
             const url = 'https://s3-eu-west-1.amazonaws.com/dashlane-static-resources/webTesting/signin_prompt.html';
             const parsedUrl = UrlUtils.getParsedUrl(url);

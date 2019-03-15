@@ -103,7 +103,9 @@ export function extractRootDomainName(url: string): string {
     if (domainIsIP(parsedUrl.hostname) || parsedUrl.hostname === 'localhost') {
         return parsedUrl.hostname;
     } else {
-        return parsedUrl.publicSuffix ? parsedUrl.domain.substring(0, parsedUrl.domain.indexOf(`.${parsedUrl.publicSuffix}`)) : parsedUrl.domain;
+        return (parsedUrl.publicSuffix && parsedUrl.domain) ?
+            parsedUrl.domain.substring(0, parsedUrl.domain.indexOf(`.${parsedUrl.publicSuffix}`)) :
+            parsedUrl.domain;
     }
 }
 
