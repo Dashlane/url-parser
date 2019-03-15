@@ -1,6 +1,6 @@
 {
   "name": "@dashlane/simple-url-parser",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "description": "A small module to parse URLs",
   "main": "js/index.js",
   "files": [
