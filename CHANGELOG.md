@@ -1,6 +1,10 @@
 CHANGELOG.md
 ============
 
+3.2.2
+-----
+* Handle null or empty url
+
 3.2.1
 -----
 * Add `extractNakedDomain` utils function to strip the `www` subdomain
