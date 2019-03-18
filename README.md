@@ -1,8 +1,10 @@
-`simple-url-parser` [![Build Status](https://travis-ci.org/Dashlane/url-parser.svg?branch=master)](https://travis-ci.org/Dashlane/url-parser)
+simple-url-parser
 ===========
 
-Lightweight module used to parse URLs,
-so that information such as the domain can be easily extracted.
+[![Build Status](https://travis-ci.org/Dashlane/url-parser.svg?branch=master)](https://travis-ci.org/Dashlane/url-parser)
+[![Dependency Status](https://david-dm.org/Dashlane/url-parser.svg)](https://david-dm.org/Dashlane/url-parser)
+
+Lightweight module used to parse URLs, so that information such as the domain can be easily extracted.
 
 ### Install
 
@@ -70,11 +72,3 @@ parsedUrl.rootDomainName; // -> amazonaws
 parsedUrl.subDomainName; // -> s3-eu-west-1
 
 ```
-
-
-
-### Maintainers
-
-- [Damien Rajon](https://github.com/pyrho)
-- [Loïc Guychard](https://github.com/lguychard)
-- [Charly Poly](https://github.com/wittydeveloper)
