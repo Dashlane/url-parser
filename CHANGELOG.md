@@ -1,6 +1,11 @@
 CHANGELOG.md
 ============
 
+4.0.0
+-----
+* Return strings from all exported extract functions
+* Handle risky null cases from tldts lib
+
 3.3.0
 -----
 * Add `urlHash` to `ParsedUrl` interface
