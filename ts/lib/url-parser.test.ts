@@ -43,7 +43,7 @@ describe('UrlUtils', () => {
             UrlUtils.extractFilepathFromUrl(url).should.eql('/page/index.html');
         });
 
-        it('should correctly parse an url with querystring', () => {
+        it('should correctly parse a url with querystring', () => {
             const url = 'http://toto.com/index.html?query=string&param=1';
             UrlUtils.extractFilepathFromUrl(url).should.eql('/index.html');
         });
@@ -59,7 +59,7 @@ describe('UrlUtils', () => {
     });
 
     describe('extractFullFilepathFromUrl', () => {
-        it('should correctly parse an url with querystring', () => {
+        it('should correctly parse a url with querystring', () => {
             const url = 'http://toto.com/index.html?query=string&param=1';
             UrlUtils.extractFullFilepathFromUrl(url).should.eql('/index.html?query=string&param=1');
         });
@@ -74,7 +74,7 @@ describe('UrlUtils', () => {
             UrlUtils.extractFullFilepathFromUrl(url).should.eql('/account/forgotpassword/?layout=Standard&amp;loginReferrerUrl=https%3A%2F%2Fwww.allrecipes.com%2F');
         });
 
-        it('should correctly parse an url with a complex querystring', () => {
+        it('should correctly parse a url with a complex querystring', () => {
             const url = 'http://www.allrecipes.com/account/forgotpassword/?layout=Standard&amp;loginReferrerUrl=https%3A%2F%2Fwww.allrecipes.com%2F';
             UrlUtils.extractFullFilepathFromUrl(url).should.eql('/account/forgotpassword/?layout=Standard&amp;loginReferrerUrl=https%3A%2F%2Fwww.allrecipes.com%2F');
         });
@@ -272,7 +272,7 @@ describe('UrlUtils', () => {
             const url = 'http://www.google.com';
             should.not.exist(UrlUtils.extractSubDomainName(url));
         });
-        it('should return the subdomain on an url with a subdomain', () => {
+        it('should return the subdomain on a url with a subdomain', () => {
             const url = 'http://accounts.google.com';
             UrlUtils.extractSubDomainName(url).should.eql('accounts');
             const url2 = 'http://54.77.248.115.google.com:8080/page/index.html';
@@ -317,7 +317,7 @@ describe('UrlUtils', () => {
             (parsedUrl.urlHash === null).should.be.True();
         });
 
-        it('should correctly parse an url', () => {
+        it('should correctly parse a url', () => {
             const url = 'https://s3-eu-west-1.amazonaws.com/dashlane-static-resources/webTesting/signin_prompt.html';
             const parsedUrl = UrlUtils.getParsedUrl(url);
             parsedUrl.url.should.eql(url);
@@ -327,7 +327,7 @@ describe('UrlUtils', () => {
             (parsedUrl.urlHash === null).should.be.True();
         });
 
-        it('should correctly parse an url with port', () => {
+        it('should correctly parse a url with port', () => {
             const url = 'https://s3-eu-west-1.amazonaws.com:9090/dashlane-static-resources/webTesting/signin_prompt.html';
             const parsedUrl = UrlUtils.getParsedUrl(url);
             parsedUrl.url.should.eql(url);
@@ -337,7 +337,7 @@ describe('UrlUtils', () => {
             (parsedUrl.urlHash === null).should.be.True();
         });
 
-        it('should correctly parse an url with basic-auth', () => {
+        it('should correctly parse a url with basic-auth', () => {
             const url = 'https://s3-eu-west-1.amazonaws.com/dashlane-static-resources/webTesting/signin_prompt.html';
             const parsedUrl = UrlUtils.getParsedUrl(url);
             parsedUrl.url.should.eql(url);
@@ -347,7 +347,7 @@ describe('UrlUtils', () => {
             (parsedUrl.urlHash === null).should.be.True();
         });
 
-        it('should correctly parse an url with querystring', () => {
+        it('should correctly parse a url with querystring', () => {
             const url = 'https://google.com/signin?redirect=%2Fhome';
             const parsedUrl = UrlUtils.getParsedUrl(url);
             parsedUrl.url.should.eql(url);
