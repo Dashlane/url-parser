@@ -147,12 +147,25 @@ export function extractSubDomainName(url: string): string {
     return subdomain;
 }
 
+export function extractUrlHash(url: string): string {
+    if (!url) {
+        return null;
+    }
+    const idx = url.indexOf('#') + 1;
+    const hash = url.slice(idx)
+    if (url === hash) {
+        return null;
+    }
+    return hash;
+}
+
 export interface ParsedUrl {
     url: string;
     fullDomain: string;
     rootDomain: string;
     rootDomainName: string;
     subDomainName: string;
+    urlHash: string;
 }
 
 export function getParsedUrl(url: string): ParsedUrl {
@@ -162,6 +175,7 @@ export function getParsedUrl(url: string): ParsedUrl {
         rootDomain: extractRootDomain(url),
         rootDomainName: extractRootDomainName(url),
         subDomainName: extractSubDomainName(url),
+        urlHash: extractUrlHash(url)
     };
 }
 

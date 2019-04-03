@@ -1,6 +1,10 @@
 CHANGELOG.md
 ============
 
+3.3.0
+-----
+* Add `urlHash` to `ParsedUrl` interface
+
 3.2.2
 -----
 * Handle null or empty url
