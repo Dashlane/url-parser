@@ -59,6 +59,7 @@ describe('UrlUtils', () => {
     });
 
     describe('extractFullFilepathFromUrl', () => {
+
         it('should correctly parse a url with querystring', () => {
             const url = 'http://toto.com/index.html?query=string&param=1';
             UrlUtils.extractFullFilepathFromUrl(url).should.eql('/index.html?query=string&param=1');
@@ -227,7 +228,6 @@ describe('UrlUtils', () => {
             (UrlUtils.extractFullDomain('') === '').should.be.True();
         });
 
-
     });
 
     describe('extractNakedDomain', () => {
@@ -261,9 +261,11 @@ describe('UrlUtils', () => {
         it('should return an empty string when the domain is an empty string', () => {
             (UrlUtils.extractNakedDomain('') === '').should.be.True();
         });
+
     });
 
     describe('extractSubDomainName', () => {
+
         it('should return an empty string on a url with no subdomain', () => {
             const url = 'http://google.com';
             // TODO: Not calling "should" at least once causes
@@ -271,22 +273,27 @@ describe('UrlUtils', () => {
             should.exist(UrlUtils.extractSubDomainName(url));
             should(UrlUtils.extractSubDomainName(url) === '').be.True();
         });
+
         it('should return an empty string on a url with www subdomain', () => {
             const url = 'http://www.google.com';
             should(UrlUtils.extractSubDomainName(url) === '').be.True();
         });
+
         it('should return the subdomain on a url with a subdomain', () => {
             const url = 'http://accounts.google.com';
             UrlUtils.extractSubDomainName(url).should.eql('accounts');
             const url2 = 'http://54.77.248.115.google.com:8080/page/index.html';
             UrlUtils.extractSubDomainName(url2).should.eql('54.77.248.115');
         });
+
         it('should return an empty string when the domain is null', () => {
             (UrlUtils.extractSubDomainName(null) === '').should.be.True();
         });
+
         it('should return an empty string when the domain is an empty string', () => {
             (UrlUtils.extractSubDomainName('') === '').should.be.True();
         });
+
     });
 
     describe('extractUrlHash', () => {
@@ -448,9 +455,11 @@ describe('UrlUtils', () => {
             (parsedUrl.rootDomainName === '').should.be.True();
             (parsedUrl.urlHash === '').should.be.True();
         });
+
     });
 
     describe('isUrlWithIPv4', () => {
+
         it('should return true if input is a URL with IPv4', () => {
             const urls = [
                 'http://54.77.248.115:8080/page/index.html',
@@ -461,6 +470,7 @@ describe('UrlUtils', () => {
             ];
             urls.forEach(url => UrlUtils.isUrlWithIPv4(url).should.be.true());
         });
+
         it('should return false if domain input is not a URL with IPv4', () => {
             const urls = [
                 'http://54.77.245:8080/page/index.html',
@@ -475,9 +485,11 @@ describe('UrlUtils', () => {
             ];
             urls.forEach(url => UrlUtils.isUrlWithIPv4(url).should.be.false());
         });
+
     });
 
     describe('isUrlWithIPv6', () => {
+
         it('should return true if input is a URL with IPv6', () => {
             const urls = [
                 'http://[1080:0:0:0:8:800:200C:417A]:8080/page/index.html',
@@ -490,6 +502,7 @@ describe('UrlUtils', () => {
             ];
             urls.forEach(url => UrlUtils.isUrlWithIPv6(url).should.be.true());
         });
+
         it('should return false if input is not a URL with IPv6', () => {
             const urls = [
                 'http://54.77.248.115/index.html',
@@ -507,9 +520,11 @@ describe('UrlUtils', () => {
             ];
             urls.forEach(url => UrlUtils.isUrlWithIPv6(url).should.be.false());
         });
+
     });
 
     describe('isUrlWithIP', () => {
+
         it('should return true if input is a URL with IPv4 or IPv6', () => {
             const urls = [
                 'http://[1080:0:0:0:8:800:200C:417A]:8080/page/index.html',
@@ -525,6 +540,7 @@ describe('UrlUtils', () => {
             ];
             urls.forEach(url => UrlUtils.isUrlWithIP(url).should.be.true());
         });
+
         it('should return false if input is not a URL with IPv4 or IPv6', () => {
             const urls = [
                 'http://54.77.245:8080/page/index.html',
@@ -538,9 +554,11 @@ describe('UrlUtils', () => {
             ];
             urls.forEach(url => UrlUtils.isUrlWithIP(url).should.be.false());
         });
+
     });
 
     describe('isUrlWithDomain', () => {
+
         it('should return true if input is a URL with a domain', () => {
             const urls = [
                 'https://google.com/signin?redirect=/home',
@@ -552,6 +570,7 @@ describe('UrlUtils', () => {
             ];
             urls.forEach(url => UrlUtils.isUrlWithDomain(url).should.be.true());
         });
+
         it('should return true if input is not a URL with a domain', () => {
             const urls = [
                 'http://54.77.248.115/index.html',
@@ -563,9 +582,11 @@ describe('UrlUtils', () => {
             ];
             urls.forEach(url => UrlUtils.isUrlWithDomain(url).should.be.false());
         });
+
     });
 
     describe('isUrl', () => {
+
         it('should return true if input is a URL (any kind)', () => {
             const urls = [
                 'https://google.com/signin?redirect=/home',
@@ -579,6 +600,7 @@ describe('UrlUtils', () => {
             ];
             urls.forEach(url => UrlUtils.isUrl(url).should.be.true());
         });
+
         it('should return false if input is not a URL (any kind)', () => {
             const urls = [
                 'welcome toto',
@@ -589,5 +611,7 @@ describe('UrlUtils', () => {
             ];
             urls.forEach(url => UrlUtils.isUrl(url).should.be.false());
         });
+
     });
+
 });
