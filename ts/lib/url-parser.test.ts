@@ -43,23 +43,24 @@ describe('UrlUtils', () => {
             UrlUtils.extractFilepathFromUrl(url).should.eql('/page/index.html');
         });
 
-        it('should correctly parse an url with querystring', () => {
+        it('should correctly parse a url with querystring', () => {
             const url = 'http://toto.com/index.html?query=string&param=1';
             UrlUtils.extractFilepathFromUrl(url).should.eql('/index.html');
         });
 
-        it('should return null if the url is null', () => {
-            (UrlUtils.extractFilepathFromUrl(null) === null).should.be.True();
+        it('should return an empty string if the url is null', () => {
+            (UrlUtils.extractFilepathFromUrl(null) === '').should.be.True();
         });
 
-        it('should return null if the url is empty', () => {
-            (UrlUtils.extractFilepathFromUrl('') === null).should.be.True();
+        it('should return an empty string if the url is empty', () => {
+            (UrlUtils.extractFilepathFromUrl('') === '').should.be.True();
         });
 
     });
 
     describe('extractFullFilepathFromUrl', () => {
-        it('should correctly parse an url with querystring', () => {
+
+        it('should correctly parse a url with querystring', () => {
             const url = 'http://toto.com/index.html?query=string&param=1';
             UrlUtils.extractFullFilepathFromUrl(url).should.eql('/index.html?query=string&param=1');
         });
@@ -74,17 +75,17 @@ describe('UrlUtils', () => {
             UrlUtils.extractFullFilepathFromUrl(url).should.eql('/account/forgotpassword/?layout=Standard&amp;loginReferrerUrl=https%3A%2F%2Fwww.allrecipes.com%2F');
         });
 
-        it('should correctly parse an url with a complex querystring', () => {
+        it('should correctly parse a url with a complex querystring', () => {
             const url = 'http://www.allrecipes.com/account/forgotpassword/?layout=Standard&amp;loginReferrerUrl=https%3A%2F%2Fwww.allrecipes.com%2F';
             UrlUtils.extractFullFilepathFromUrl(url).should.eql('/account/forgotpassword/?layout=Standard&amp;loginReferrerUrl=https%3A%2F%2Fwww.allrecipes.com%2F');
         });
         
-        it('should return null if the url is null', () => {
-            (UrlUtils.extractFullFilepathFromUrl(null) === null).should.be.True();
+        it('should return an empty string if the url is null', () => {
+            (UrlUtils.extractFullFilepathFromUrl(null) === '').should.be.True();
         });
         
-        it('should return null if the url is empty', () => {
-            (UrlUtils.extractFullFilepathFromUrl('') === null).should.be.True();
+        it('should return an empty string if the url is empty', () => {
+            (UrlUtils.extractFullFilepathFromUrl('') === '').should.be.True();
         });
         
     });
@@ -132,12 +133,12 @@ describe('UrlUtils', () => {
             UrlUtils.extractRootDomain(url4).should.eql('impots.gouv.fr');
         });
 
-        it('should return null when the domain is null', () => {
-            (UrlUtils.extractRootDomain(null) === null).should.be.True();
+        it('should return an empty string when the domain is null', () => {
+            (UrlUtils.extractRootDomain(null) === '').should.be.True();
         });
 
-        it('should return null when the domain is an empty string', () => {
-            (UrlUtils.extractRootDomain('') === null).should.be.True();
+        it('should return an empty string when the domain is an empty string', () => {
+            (UrlUtils.extractRootDomain('') === '').should.be.True();
         });
 
     });
@@ -170,12 +171,12 @@ describe('UrlUtils', () => {
             UrlUtils.extractRootDomainName(url3).should.eql('impots');
         });
 
-        it('should return null when the domain is null', () => {
-            (UrlUtils.extractRootDomainName(null) === null).should.be.True();
+        it('should return an empty string when the domain is null', () => {
+            (UrlUtils.extractRootDomainName(null) === '').should.be.True();
         });
 
-        it('should return null when the domain is an empty string', () => {
-            (UrlUtils.extractRootDomainName('') === null).should.be.True();
+        it('should return an empty string when the domain is an empty string', () => {
+            (UrlUtils.extractRootDomainName('') === '').should.be.True();
         });
 
     });
@@ -219,14 +220,13 @@ describe('UrlUtils', () => {
             UrlUtils.extractFullDomain(url2).should.eql('www.impots.gouv.fr');
         });
 
-        it('should return null when the url is null', () => {
-            (UrlUtils.extractFullDomain(null) === null).should.be.True();
+        it('should return an empty string when the url is null', () => {
+            (UrlUtils.extractFullDomain(null) === '').should.be.True();
         });
 
-        it('should return null when the url is an empty string', () => {
-            (UrlUtils.extractFullDomain('') === null).should.be.True();
+        it('should return an empty string when the url is an empty string', () => {
+            (UrlUtils.extractFullDomain('') === '').should.be.True();
         });
-
 
     });
 
@@ -254,92 +254,137 @@ describe('UrlUtils', () => {
             });
         });
 
-        it('should return null when the domain is null', () => {
-            (UrlUtils.extractNakedDomain(null) === null).should.be.True();
+        it('should return an empty string when the domain is null', () => {
+            (UrlUtils.extractNakedDomain(null) === '').should.be.True();
         });
-        
-        it('should return null when the domain is an empty string', () => {
-            (UrlUtils.extractNakedDomain('') === null).should.be.True();
+
+        it('should return an empty string when the domain is an empty string', () => {
+            (UrlUtils.extractNakedDomain('') === '').should.be.True();
         });
+
     });
 
     describe('extractSubDomainName', () => {
-        it('should return null on an url with no subdomain', () => {
+
+        it('should return an empty string on a url with no subdomain', () => {
             const url = 'http://google.com';
-            should.not.exist(UrlUtils.extractSubDomainName(url));
+            // TODO: Not calling "should" at least once causes
+            // every test to fail due to "should" being "undefined"
+            should.exist(UrlUtils.extractSubDomainName(url));
+            should(UrlUtils.extractSubDomainName(url) === '').be.True();
         });
-        it('should return null on an url with www subdomain', () => {
+
+        it('should return an empty string on a url with www subdomain', () => {
             const url = 'http://www.google.com';
-            should.not.exist(UrlUtils.extractSubDomainName(url));
+            should(UrlUtils.extractSubDomainName(url) === '').be.True();
         });
-        it('should return the subdomain on an url with a subdomain', () => {
+
+        it('should return the subdomain on a url with a subdomain', () => {
             const url = 'http://accounts.google.com';
             UrlUtils.extractSubDomainName(url).should.eql('accounts');
             const url2 = 'http://54.77.248.115.google.com:8080/page/index.html';
             UrlUtils.extractSubDomainName(url2).should.eql('54.77.248.115');
         });
-        it('should return null when the domain is null', () => {
-            (UrlUtils.extractSubDomainName(null) === null).should.be.True();
+
+        it('should return an empty string when the domain is null', () => {
+            (UrlUtils.extractSubDomainName(null) === '').should.be.True();
         });
-        it('should return null when the domain is an empty string', () => {
-            (UrlUtils.extractSubDomainName('') === null).should.be.True();
+
+        it('should return an empty string when the domain is an empty string', () => {
+            (UrlUtils.extractSubDomainName('') === '').should.be.True();
         });
+
+    });
+
+    describe('extractUrlHash', () => {
+
+        it('should return an empty string on a url with no hash', () => {
+            const url = 'http://google.com';
+            (UrlUtils.extractUrlHash(url) === '').should.be.True();
+        });
+
+        it('should return an empty string on a url with an empty hash', () => {
+            const url = 'http://google.com#';
+            (UrlUtils.extractUrlHash(url) === '').should.be.True();
+        });
+
+        it('should return a url hash on a url with a hash', () => {
+            const url = 'http://google.com#hash';
+            (UrlUtils.extractUrlHash(url) === 'hash').should.be.True();
+        });
+
     });
 
     describe('getParsedUrl', () => {
 
-        it('should not throw when provided with an url without an extension', () => {
+        it('should not throw when provided with a url without an extension', () => {
             const url = 'http://notvalid';
             const parsedUrl = UrlUtils.getParsedUrl(url);
             parsedUrl.url.should.eql(url);
-            (parsedUrl.fullDomain === null).should.be.True();
-            (parsedUrl.rootDomain === null).should.be.True();
-            (parsedUrl.rootDomainName === null).should.be.True();
+            (parsedUrl.fullDomain === '').should.be.True();
+            (parsedUrl.rootDomain === '').should.be.True();
+            (parsedUrl.rootDomainName === '').should.be.True();
+            (parsedUrl.urlHash === '').should.be.True();
         });
 
-        it('should correctly parse an url', () => {
+        it('should correctly parse a url', () => {
             const url = 'https://s3-eu-west-1.amazonaws.com/dashlane-static-resources/webTesting/signin_prompt.html';
             const parsedUrl = UrlUtils.getParsedUrl(url);
             parsedUrl.url.should.eql(url);
             parsedUrl.fullDomain.should.eql('s3-eu-west-1.amazonaws.com');
             parsedUrl.rootDomain.should.eql('amazonaws.com');
             parsedUrl.rootDomainName.should.eql('amazonaws');
+            (parsedUrl.urlHash === '').should.be.True();
         });
 
-        it('should correctly parse an url with port', () => {
+        it('should correctly parse a url with port', () => {
             const url = 'https://s3-eu-west-1.amazonaws.com:9090/dashlane-static-resources/webTesting/signin_prompt.html';
             const parsedUrl = UrlUtils.getParsedUrl(url);
             parsedUrl.url.should.eql(url);
             parsedUrl.fullDomain.should.eql('s3-eu-west-1.amazonaws.com');
             parsedUrl.rootDomain.should.eql('amazonaws.com');
             parsedUrl.rootDomainName.should.eql('amazonaws');
+            (parsedUrl.urlHash === '').should.be.True();
         });
 
-        it('should correctly parse an url with basic-auth', () => {
+        it('should correctly parse a url with basic-auth', () => {
             const url = 'https://s3-eu-west-1.amazonaws.com/dashlane-static-resources/webTesting/signin_prompt.html';
             const parsedUrl = UrlUtils.getParsedUrl(url);
             parsedUrl.url.should.eql(url);
             parsedUrl.fullDomain.should.eql('s3-eu-west-1.amazonaws.com');
             parsedUrl.rootDomain.should.eql('amazonaws.com');
             parsedUrl.rootDomainName.should.eql('amazonaws');
+            (parsedUrl.urlHash === '').should.be.True();
         });
 
-        it('should correctly parse an url with querystring', () => {
+        it('should correctly parse a url with querystring', () => {
             const url = 'https://google.com/signin?redirect=%2Fhome';
             const parsedUrl = UrlUtils.getParsedUrl(url);
             parsedUrl.url.should.eql(url);
             parsedUrl.fullDomain.should.eql('google.com');
             parsedUrl.rootDomain.should.eql('google.com');
             parsedUrl.rootDomainName.should.eql('google');
+            (parsedUrl.urlHash === '').should.be.True();
         });
 
-        it('should correctly parse an url with non-encoded querystring', () => {
+        it('should correctly parse a url with a hash', () => {
+            const url = 'https://google.com/signin#hash';
+            const parsedUrl = UrlUtils.getParsedUrl(url);
+            parsedUrl.url.should.eql(url);
+            parsedUrl.fullDomain.should.eql('google.com');
+            parsedUrl.rootDomain.should.eql('google.com');
+            parsedUrl.rootDomainName.should.eql('google');
+            parsedUrl.urlHash.should.eql('hash');
+        });
+
+        it('should correctly parse a url with non-encoded querystring', () => {
             const url = 'https://google.com/signin?redirect=/home';
             const parsedUrl = UrlUtils.getParsedUrl(url);
             parsedUrl.url.should.eql(url);
             parsedUrl.fullDomain.should.eql('google.com');
             parsedUrl.rootDomain.should.eql('google.com');
             parsedUrl.rootDomainName.should.eql('google');
+            (parsedUrl.urlHash === '').should.be.True();
         });
 
         it('should correctly parse an IPv4-based url', () => {
@@ -349,6 +394,7 @@ describe('UrlUtils', () => {
             parsedUrl.fullDomain.should.eql('54.77.248.115');
             parsedUrl.rootDomain.should.eql('54.77.248.115');
             parsedUrl.rootDomainName.should.eql('54.77.248.115');
+            (parsedUrl.urlHash === '').should.be.True();
         });
 
         it('should correctly parse an weird url with "IPv4-like" subdomain', () => {
@@ -358,6 +404,7 @@ describe('UrlUtils', () => {
             parsedUrl.fullDomain.should.eql('54.77.248.115.google.com');
             parsedUrl.rootDomain.should.eql('google.com');
             parsedUrl.rootDomainName.should.eql('google');
+            (parsedUrl.urlHash === '').should.be.True();
         });
 
         it('should correctly parse an IPv6-based url with port', () => {
@@ -367,6 +414,7 @@ describe('UrlUtils', () => {
             parsedUrl.fullDomain.should.eql('1080:0:0:0:8:800:200c:417a');
             parsedUrl.rootDomain.should.eql('1080:0:0:0:8:800:200c:417a');
             parsedUrl.rootDomainName.should.eql('1080:0:0:0:8:800:200c:417a');
+            (parsedUrl.urlHash === '').should.be.True();
         });
 
         it('should correctly parse an IPv6-based url', () => {
@@ -376,6 +424,7 @@ describe('UrlUtils', () => {
             parsedUrl.fullDomain.should.eql('1080:0:0:0:8:800:200c:417a');
             parsedUrl.rootDomain.should.eql('1080:0:0:0:8:800:200c:417a');
             parsedUrl.rootDomainName.should.eql('1080:0:0:0:8:800:200c:417a');
+            (parsedUrl.urlHash === '').should.be.True();
         });
 
         it('should correctly parse an localhost url', () => {
@@ -385,27 +434,32 @@ describe('UrlUtils', () => {
             parsedUrl.fullDomain.should.eql('localhost');
             parsedUrl.rootDomain.should.eql('localhost');
             parsedUrl.rootDomainName.should.eql('localhost');
+            (parsedUrl.urlHash === '').should.be.True();
         });
 
-        it('should return null when the domain is null', () => {
+        it('should return an empty string when the domain is null', () => {
             const parsedUrl = UrlUtils.getParsedUrl(null);
-            (parsedUrl.url === null).should.be.True();
-            (parsedUrl.fullDomain === null).should.be.True();
-            (parsedUrl.rootDomain === null).should.be.True();
-            (parsedUrl.rootDomainName === null).should.be.True();
+            (parsedUrl.url === '').should.be.True();
+            (parsedUrl.fullDomain === '').should.be.True();
+            (parsedUrl.rootDomain === '').should.be.True();
+            (parsedUrl.rootDomainName === '').should.be.True();
+            (parsedUrl.urlHash === '').should.be.True();
         });
 
-        it('should return null when the domain is an empty string', () => {
+        it('should return an empty string when the domain is an empty string', () => {
             const url = '';
             const parsedUrl = UrlUtils.getParsedUrl(url);
             parsedUrl.url.should.eql(url);
-            (parsedUrl.fullDomain === null).should.be.True();
-            (parsedUrl.rootDomain === null).should.be.True();
-            (parsedUrl.rootDomainName === null).should.be.True();
+            (parsedUrl.fullDomain === '').should.be.True();
+            (parsedUrl.rootDomain === '').should.be.True();
+            (parsedUrl.rootDomainName === '').should.be.True();
+            (parsedUrl.urlHash === '').should.be.True();
         });
+
     });
 
     describe('isUrlWithIPv4', () => {
+
         it('should return true if input is a URL with IPv4', () => {
             const urls = [
                 'http://54.77.248.115:8080/page/index.html',
@@ -416,6 +470,7 @@ describe('UrlUtils', () => {
             ];
             urls.forEach(url => UrlUtils.isUrlWithIPv4(url).should.be.true());
         });
+
         it('should return false if domain input is not a URL with IPv4', () => {
             const urls = [
                 'http://54.77.245:8080/page/index.html',
@@ -430,9 +485,11 @@ describe('UrlUtils', () => {
             ];
             urls.forEach(url => UrlUtils.isUrlWithIPv4(url).should.be.false());
         });
+
     });
 
     describe('isUrlWithIPv6', () => {
+
         it('should return true if input is a URL with IPv6', () => {
             const urls = [
                 'http://[1080:0:0:0:8:800:200C:417A]:8080/page/index.html',
@@ -445,6 +502,7 @@ describe('UrlUtils', () => {
             ];
             urls.forEach(url => UrlUtils.isUrlWithIPv6(url).should.be.true());
         });
+
         it('should return false if input is not a URL with IPv6', () => {
             const urls = [
                 'http://54.77.248.115/index.html',
@@ -462,9 +520,11 @@ describe('UrlUtils', () => {
             ];
             urls.forEach(url => UrlUtils.isUrlWithIPv6(url).should.be.false());
         });
+
     });
 
     describe('isUrlWithIP', () => {
+
         it('should return true if input is a URL with IPv4 or IPv6', () => {
             const urls = [
                 'http://[1080:0:0:0:8:800:200C:417A]:8080/page/index.html',
@@ -480,6 +540,7 @@ describe('UrlUtils', () => {
             ];
             urls.forEach(url => UrlUtils.isUrlWithIP(url).should.be.true());
         });
+
         it('should return false if input is not a URL with IPv4 or IPv6', () => {
             const urls = [
                 'http://54.77.245:8080/page/index.html',
@@ -493,9 +554,11 @@ describe('UrlUtils', () => {
             ];
             urls.forEach(url => UrlUtils.isUrlWithIP(url).should.be.false());
         });
+
     });
 
     describe('isUrlWithDomain', () => {
+
         it('should return true if input is a URL with a domain', () => {
             const urls = [
                 'https://google.com/signin?redirect=/home',
@@ -507,6 +570,7 @@ describe('UrlUtils', () => {
             ];
             urls.forEach(url => UrlUtils.isUrlWithDomain(url).should.be.true());
         });
+
         it('should return true if input is not a URL with a domain', () => {
             const urls = [
                 'http://54.77.248.115/index.html',
@@ -518,9 +582,11 @@ describe('UrlUtils', () => {
             ];
             urls.forEach(url => UrlUtils.isUrlWithDomain(url).should.be.false());
         });
+
     });
 
     describe('isUrl', () => {
+
         it('should return true if input is a URL (any kind)', () => {
             const urls = [
                 'https://google.com/signin?redirect=/home',
@@ -534,6 +600,7 @@ describe('UrlUtils', () => {
             ];
             urls.forEach(url => UrlUtils.isUrl(url).should.be.true());
         });
+
         it('should return false if input is not a URL (any kind)', () => {
             const urls = [
                 'welcome toto',
@@ -544,5 +611,7 @@ describe('UrlUtils', () => {
             ];
             urls.forEach(url => UrlUtils.isUrl(url).should.be.false());
         });
+
     });
+
 });

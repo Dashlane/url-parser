@@ -58,7 +58,7 @@ function domainIsIP(hostname: string): boolean {
 
 export function extractFilepathFromUrl(url: string): string {
     if (!url) {
-        return null;
+        return '';
     }
     let ret = extractFullFilepathFromUrl(url);
     // Strip the querystrings
@@ -67,7 +67,7 @@ export function extractFilepathFromUrl(url: string): string {
 
 export function extractFullFilepathFromUrl(url: string): string {
     if (!url) {
-        return null;
+        return '';
     }
     let ret: string = url;
 
@@ -87,64 +87,77 @@ export function extractFullFilepathFromUrl(url: string): string {
 
 export function extractFullDomain(url: string): string {
     if (!url) {
-        return null;
+        return '';
     }
     const parsedUrl = parse(url);
-    if (domainIsIP(parsedUrl.hostname)  || parsedUrl.hostname === 'localhost') {
+    if (domainIsIP(parsedUrl.hostname) || parsedUrl.hostname === 'localhost') {
         return parsedUrl.hostname;
     } else {
-        if(parsedUrl.subdomain) {
+        if (parsedUrl.subdomain && parsedUrl.domain) {
             return `${parsedUrl.subdomain}.${parsedUrl.domain}`
         } else {
-            return parsedUrl.domain;
+            return parsedUrl.domain || '';
         }
     }
 }
 export function extractNakedDomain(url: string): string {
     const fullDomain = extractFullDomain(url);
     if (!url) {
-        return null;
+        return '';
     }
     return fullDomain.replace(/^www\./, '');
 }
 
 export function extractRootDomain(url: string): string {
     if (!url) {
-        return null;
-    }
-    const parsedUrl = parse(url);
-    if (domainIsIP(parsedUrl.hostname)  || parsedUrl.hostname === 'localhost') {
-        return parsedUrl.hostname;
-    } else {
-        return parsedUrl.domain;
-    }
-}
-
-export function extractRootDomainName(url: string): string {
-    if (!url) {
-        return null;
+        return '';
     }
     const parsedUrl = parse(url);
     if (domainIsIP(parsedUrl.hostname) || parsedUrl.hostname === 'localhost') {
         return parsedUrl.hostname;
     } else {
-        return (parsedUrl.publicSuffix && parsedUrl.domain) ?
-            parsedUrl.domain.substring(0, parsedUrl.domain.indexOf(`.${parsedUrl.publicSuffix}`)) :
-            parsedUrl.domain;
+        return parsedUrl.domain || '';
+    }
+}
+
+export function extractRootDomainName(url: string): string {
+    if (!url) {
+        return '';
+    }
+    const parsedUrl = parse(url);
+    if (domainIsIP(parsedUrl.hostname) || parsedUrl.hostname === 'localhost') {
+        return parsedUrl.hostname;
+    } else if (parsedUrl.publicSuffix && parsedUrl.domain) {
+        return parsedUrl.domain
+            .substring(0, parsedUrl.domain.indexOf(`.${parsedUrl.publicSuffix}`))
+    } else {
+        return parsedUrl.domain || '';
     }
 }
 
 export function extractSubDomainName(url: string): string {
     if (!url) {
-        return null;
+        return '';
     }
     const parsedUrl = parse(url);
     const subdomain = parsedUrl.subdomain;
 
     if (!subdomain || subdomain === 'www') {
-        return null;
+        return '';
     }
     return subdomain;
+}
+
+export function extractUrlHash(url: string): string {
+    if (!url) {
+        return '';
+    }
+    const idx = url.indexOf('#') + 1;
+    const hash = url.slice(idx)
+    if (url === hash) {
+        return '';
+    }
+    return hash;
 }
 
 export interface ParsedUrl {
@@ -153,15 +166,17 @@ export interface ParsedUrl {
     rootDomain: string;
     rootDomainName: string;
     subDomainName: string;
+    urlHash: string;
 }
 
 export function getParsedUrl(url: string): ParsedUrl {
     return {
-        url: url,
+        url: url || '',
         fullDomain: extractFullDomain(url),
         rootDomain: extractRootDomain(url),
         rootDomainName: extractRootDomainName(url),
         subDomainName: extractSubDomainName(url),
+        urlHash: extractUrlHash(url)
     };
 }
 
@@ -180,7 +195,6 @@ export function isUrlWithIPv6(url: string): boolean {
     const { hostname } = parse(url);
     return domainIsIPv6(hostname);
 }
-
 
 export function isUrlWithIP(url: string): boolean {
     if (!url) {
