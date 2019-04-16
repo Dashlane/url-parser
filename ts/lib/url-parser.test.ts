@@ -1,6 +1,7 @@
 import * as should from 'should';
 
 import * as UrlUtils from './url-parser';
+import { parse } from 'tldts';
 
 describe('UrlUtils', () => {
 
@@ -445,8 +446,49 @@ describe('UrlUtils', () => {
             (parsedUrl.rootDomainName === null).should.be.True();
             (parsedUrl.urlHash === null).should.be.True();
         });
+
+        it('should work with authorized non standard domains', () => {
+            const nonStandardUrl = 'https://blibli1234';
+            const parsedUrl = UrlUtils.getParsedUrl(nonStandardUrl, {authorizedNonStandardDomains: ['blibli1234']});
+            parsedUrl.fullDomain.should.eql('blibli1234');
+            parsedUrl.rootDomain.should.eql('blibli1234');
+            parsedUrl.rootDomainName.should.eql('blibli1234');
+            (parsedUrl.urlHash === null).should.be.True();
+        })
+
+        it('should work even if non standard domain is actually standard', () => {
+            const domain = 'https://notaweirdone.mydomain.com/toto?haha=12';
+            const parsedUrl = UrlUtils.getParsedUrl(domain, {authorizedNonStandardDomains: ['https://notaweirdone.com']});
+            parsedUrl.url.should.eql('https://notaweirdone.mydomain.com/toto?haha=12');
+            parsedUrl.fullDomain.should.eql('notaweirdone.mydomain.com');
+            parsedUrl.rootDomain.should.eql('mydomain.com');
+            parsedUrl.subDomainName.should.eql('notaweirdone');
+            parsedUrl.rootDomainName.should.eql('mydomain');
+            (parsedUrl.urlHash === null).should.be.True();
+        })
     });
 
+    describe('isNonStandardAndAuthorizedUrl', () => {
+        it('should match if the domain is authorized and NOT standard', () => {
+            const url = 'ohlala'
+            const authorizedUrls = ['ohlala']
+            const parsedUrl = parse(url)
+            UrlUtils.isNonStandardAndAuthorizedUrl(parsedUrl, authorizedUrls).should.be.True();
+
+        })
+        it('should NOT match if the domain is authorized and standard', () => {
+            const url = 'https://ohlala.com/oui'
+            const authorizedUrls = ['ohlala.com']
+            const parsedUrl = parse(url)
+            UrlUtils.isNonStandardAndAuthorizedUrl(parsedUrl, authorizedUrls).should.be.False();
+        })
+        it('should NOT match if the domain is NOT authorized and non standard', () => {
+            const url = 'https://ohlala.com/oui'
+            const authorizedUrls = ['iamnottheurl']
+            const parsedUrl = parse(url)
+            UrlUtils.isNonStandardAndAuthorizedUrl(parsedUrl, authorizedUrls).should.be.False();
+        })
+    })
     describe('isUrlWithIPv4', () => {
         it('should return true if input is a URL with IPv4', () => {
             const urls = [
