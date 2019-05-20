@@ -1,4 +1,5 @@
 import { parse } from 'tldts';
+import { IResult } from 'tldts/dist/lib/factory';
 
 const protocols: string[] = [
     'http://',
@@ -85,12 +86,13 @@ export function extractFullFilepathFromUrl(url: string): string {
     return ret;
 }
 
-export function extractFullDomain(url: string): string {
+export function extractFullDomain(url: string, options?: UrlParserOptions): string {
+    const authorizedNonStandardDomains = options ? options.authorizedNonStandardDomains : []
     if (!url) {
         return null;
     }
     const parsedUrl = parse(url);
-    if (domainIsIP(parsedUrl.hostname)  || parsedUrl.hostname === 'localhost') {
+    if (isValidNonStandardUrl(parsedUrl, authorizedNonStandardDomains)) {
         return parsedUrl.hostname;
     } else {
         if(parsedUrl.subdomain) {
@@ -108,24 +110,26 @@ export function extractNakedDomain(url: string): string {
     return fullDomain.replace(/^www\./, '');
 }
 
-export function extractRootDomain(url: string): string {
+export function extractRootDomain(url: string, options?: UrlParserOptions): string {
+    const authorizedNonStandardDomains = options ? options.authorizedNonStandardDomains : [];
     if (!url) {
         return null;
     }
     const parsedUrl = parse(url);
-    if (domainIsIP(parsedUrl.hostname)  || parsedUrl.hostname === 'localhost') {
+    if (isValidNonStandardUrl(parsedUrl, authorizedNonStandardDomains)) {
         return parsedUrl.hostname;
     } else {
         return parsedUrl.domain;
     }
 }
 
-export function extractRootDomainName(url: string): string {
+export function extractRootDomainName(url: string, options?: UrlParserOptions): string {
+    const authorizedNonStandardDomains = options ? options.authorizedNonStandardDomains : []
     if (!url) {
         return null;
     }
     const parsedUrl = parse(url);
-    if (domainIsIP(parsedUrl.hostname) || parsedUrl.hostname === 'localhost') {
+    if (isValidNonStandardUrl(parsedUrl, authorizedNonStandardDomains)) {
         return parsedUrl.hostname;
     } else {
         return (parsedUrl.publicSuffix && parsedUrl.domain) ?
@@ -168,12 +172,15 @@ export interface ParsedUrl {
     urlHash: string;
 }
 
-export function getParsedUrl(url: string): ParsedUrl {
+export interface UrlParserOptions {
+    authorizedNonStandardDomains: string[];
+}
+export function getParsedUrl(url: string, options?: UrlParserOptions): ParsedUrl {
     return {
         url: url,
-        fullDomain: extractFullDomain(url),
-        rootDomain: extractRootDomain(url),
-        rootDomainName: extractRootDomainName(url),
+        fullDomain: extractFullDomain(url, options),
+        rootDomain: extractRootDomain(url, options),
+        rootDomainName: extractRootDomainName(url, options),
         subDomainName: extractSubDomainName(url),
         urlHash: extractUrlHash(url)
     };
@@ -220,4 +227,19 @@ export function isUrlWithDomain(url: string): boolean {
 
 export function isUrl(url: string): boolean {
     return isUrlWithDomain(url) || isUrlWithIP(url);
+}
+
+// We need this check because authorizedNonStandardDomains may actually contains standard domains
+// in which case we want to treat them normally to properly extract their domain, subdomain, etc...
+export function isNonStandardAndAuthorizedUrl(parsedUrl: IResult, authorizedNonStandardDomains: string[]): boolean {
+    const isDomainlessUrl = (parsedUrl: IResult): boolean => parsedUrl && !parsedUrl.domain;
+    const isAuthorizedDomain = (hostname: string, authorizedNonStandardDomains: string[]): boolean => hostname && authorizedNonStandardDomains.indexOf(parsedUrl.hostname) > -1;
+    
+    return isAuthorizedDomain(parsedUrl.hostname, authorizedNonStandardDomains) && isDomainlessUrl(parsedUrl);
+}
+
+function isValidNonStandardUrl(parsedUrl: IResult, authorizedNonStandardDomains: string[]): boolean {
+    return domainIsIP(parsedUrl.hostname) ||
+    parsedUrl.hostname === 'localhost' ||
+    isNonStandardAndAuthorizedUrl(parsedUrl, authorizedNonStandardDomains)
 }

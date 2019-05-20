@@ -1,6 +1,10 @@
 CHANGELOG.md
 ============
 
+WIP
+-----
+* Add options and `nonStandardAuthorizedUrl` to all methods
+
 3.3.0
 -----
 * Add `urlHash` to `ParsedUrl` interface
