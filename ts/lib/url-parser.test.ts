@@ -78,15 +78,15 @@ describe('UrlUtils', () => {
             const url = 'http://www.allrecipes.com/account/forgotpassword/?layout=Standard&amp;loginReferrerUrl=https%3A%2F%2Fwww.allrecipes.com%2F';
             UrlUtils.extractFullFilepathFromUrl(url).should.eql('/account/forgotpassword/?layout=Standard&amp;loginReferrerUrl=https%3A%2F%2Fwww.allrecipes.com%2F');
         });
-        
+
         it('should return null if the url is null', () => {
             (UrlUtils.extractFullFilepathFromUrl(null) === null).should.be.True();
         });
-        
+
         it('should return null if the url is empty', () => {
             (UrlUtils.extractFullFilepathFromUrl('') === null).should.be.True();
         });
-        
+
     });
 
     describe('extractRootDomain', () => {
@@ -257,7 +257,7 @@ describe('UrlUtils', () => {
         it('should return null when the domain is null', () => {
             (UrlUtils.extractNakedDomain(null) === null).should.be.True();
         });
-        
+
         it('should return null when the domain is an empty string', () => {
             (UrlUtils.extractNakedDomain('') === null).should.be.True();
         });
@@ -585,6 +585,86 @@ describe('UrlUtils', () => {
                 ''
             ];
             urls.forEach(url => UrlUtils.isUrl(url).should.be.false());
+        });
+    });
+
+    describe('findUsedProtocol', () => {
+        it('should return the used protocol in the URL', () => {
+            const usedProtocols = [
+                'http://',
+                'ftp://',
+                'smb://'
+            ];
+            const urls = [
+                `${usedProtocols[0]}//example.com/over/there`,
+                `${usedProtocols[1]}jamesc@ftp.harlequin.com/foo.html`,
+                `${usedProtocols[2]}workgroup;user:password@server/share/folder/file.txt`
+            ];
+
+            urls.forEach((url, key) => UrlUtils.findUsedProtocol(url)
+                .should.eql(usedProtocols[key]))
+        });
+        it('should return undefined when the url doesn\'t contain a valid protocol', () => {
+            const urls = [
+                'example.com/page',
+                '/path/to/page',
+                'http//website.com'
+            ];
+
+            urls.forEach((url, key) => should(UrlUtils.findUsedProtocol(url)).be.undefined())
+        })
+    });
+
+    describe('omitCredentialsFromUrl', () => {
+        it('should omit the credentials from urls having the following format http://username:password@example.com', () => {
+            UrlUtils.omitCredentialsFromUrl('http://username:password@example.com')
+                .should.eql('http://example.com')
+        });
+    });
+
+    describe('omitQueryStringFromUrl', () => {
+        it('should omit the query string from urls', () => {
+            const urls = [
+                'http://example.com/over/there?name=ferret',
+                'http://example.com/path/to/page?name=ferret&color=purple'
+            ];
+            const expectedOutputs = [
+                'http://example.com/over/there',
+                'http://example.com/path/to/page'
+            ];
+
+            urls.forEach((url, key) => UrlUtils.omitQueryStringFromUrl(url)
+                .should.eql(expectedOutputs[key]));
+        });
+    });
+
+    describe('urlContainsProtocol', () => {
+        it('should return true if the url contains a valid protocol', () => {
+            const urls = [
+                'http://google.com',
+                'https://facebook.com',
+                'ftp://jamesc@ftp.harlequin.com/foo.html',
+                'file://localhost/c$/WINDOWS/clock.avi',
+                'afp://;AUTH=No%20User%20Authent@myserver/guestVolume',
+                'smb://workgroup;user:password@server/share/folder/file.txt'
+            ];
+
+            urls.forEach(url => UrlUtils.urlContainsProtocol(url)
+                .should.be.true());
+        });
+
+        it('should return false if the url contains a non valid protocol', () => {
+            const urls = [
+                'example.com/page',
+                '/path/to/page',
+                'website',
+                'http:/website.com',
+                'http//website.com',
+                'git://github.com/user/project-name.git'
+            ];
+
+            urls.forEach(url => UrlUtils.urlContainsProtocol(url)
+                .should.be.false());
         });
     });
 });

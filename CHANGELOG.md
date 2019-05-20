@@ -1,6 +1,10 @@
 CHANGELOG.md
 ============
 
+WIP
+-----
+* Add additional validations for a secure URL : `urlContainsProtocol`, `omitCredentialsFromUrl` and `omitQueryStringFromUrl` 
+
 3.3.0
 -----
 * Add `urlHash` to `ParsedUrl` interface
