@@ -545,7 +545,6 @@ describe('UrlUtils', () => {
                 'http://toto.com/a/b/c/url/lol.png',
                 'welcome.toto/index.html',
                 'welcome.toto',
-                'welcome',
             ];
             urls.forEach(url => UrlUtils.isUrlWithDomain(url).should.be.true());
         });
@@ -570,7 +569,6 @@ describe('UrlUtils', () => {
                 'http://toto.com/a/b/c/url/lol.png',
                 'welcome.toto/index.html',
                 'welcome.toto',
-                'welcome',
                 'http://54.77.248.115/index.html',
                 'http://[1080:0:0:0:8:800:200C:417A]:8080/page/index.html',
             ];

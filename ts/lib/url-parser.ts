@@ -208,14 +208,9 @@ export function isUrlWithDomain(url: string): boolean {
     if (!url) {
         return false;
     }
-    const urlRegexps = [
-        /^(?:https?:\/\/)?(?:[a-z0-9\-_]{1,63}\.)+(?:[a-z0-9\-_]{1,63})(?::[0-9]{1,5})?(?:\/.*)?$/i,
-        /^(?:https?:\/\/)?(?:[a-z0-9\-_]{1,63})(?::[0-9]{1,5})?(?:\/.*)?$/i,
-        /^(?:https?:\/\/)?(?:[a-z0-9\-_]{1,63}\.)+(?:[a-z0-9\-_]{1,63})(?::[0-9]{1,5})?\s*$/i,
-        /^(?:https?:\/\/)?(?:[a-z0-9\-_]{1,63})(?::[0-9]{1,5})?\s*$/i,
-    ];
-    const urlRegex: RegExp = /^(?:https?:\/\/)?(?:[a-z0-9\\-_]{1,63}\\.)+(?:[a-z0-9\\-_]{1,63})(?::[0-9]{1,5})?(?:\/.*)?$/i;
-    return urlRegexps.some(urlRegexp => url.match(urlRegexp) !== null) && !isUrlWithIP(url);
+
+    const { domain } = parse(url);
+    return Boolean(domain);
 }
 
 export function isUrl(url: string): boolean {
