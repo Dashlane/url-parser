@@ -14,7 +14,8 @@
   "typings": "js/index",
   "scripts": {
     "build": "tsc -p ts",
-    "test": "mocha -r ts-node/register ts/**/*.test.ts",
+    "test": "TS_NODE_COMPILER_OPTIONS='{\"target\":\"es6\"}' mocha -r ts-node/register ts/**/*.test.ts",
+    "test-watch": "npm test -- --watch-extensions ts --watch",
     "ci": "npm test && npm audit",
     "prepublish": "npm build && npm test"
   },
@@ -41,7 +42,7 @@
   },
   "homepage": "https://github.com/Dashlane/url-parser#readme",
   "dependencies": {
-    "tldts": "^4.0.2"
+    "tldts": "^4.0.6"
   },
   "keywords": [
     "url-parser",

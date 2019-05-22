@@ -20,7 +20,7 @@ function domainIsIPv4(hostname: string): boolean {
         return false;
     } else {
         // ensure valid IP format (basic test)
-        return (hostnameParts.length === 4) && hostnameParts.every( (domainPart: string) => {
+        return (hostnameParts.length === 4) && hostnameParts.every((domainPart: string) => {
             const byte = parseInt(domainPart, 10);
             return !isNaN(byte) && byte <= 255;
         });
@@ -35,13 +35,13 @@ function domainIsIPv6(hostname: string): boolean {
     // hostname 1080:0:0:0:8:800:200C:417A
     const hostnameParts = hostname.split(':');
     const checkFormat = hostnameParts.length >= 4 &&   // [2001:db8::1] is a valid IPv6 address and equal to [2001:db8:0:1:0:0:0:0]
-           hostnameParts.length <= 8;
+        hostnameParts.length <= 8;
 
-    const checkBytes = hostnameParts.every( (str: string) => {
+    const checkBytes = hostnameParts.every((str: string) => {
         if (!str) {
             // In IPv6 protocol, this is a valid IPv6 address: [1080::::8:800:200C:417A]
             str = '0';
-        };
+        }
         const bytes = parseInt(str, 16);
         return !isNaN(bytes) && bytes <= 0xFFFF;
     });
@@ -71,17 +71,15 @@ export function extractFullFilepathFromUrl(url: string): string {
     }
     let ret: string = url;
 
-    for (let i = 0; i < protocols.length; i++) {
-        const p = protocols[i];
-        if (url.indexOf(p) === 0) {
-            ret = url.slice(p.length);
-            const idx: number = ret.indexOf('/');
-            if (idx !== -1) {
-                ret = ret.slice(idx);
-            }
-            break;
+    const protocol = findUsedProtocol(url);
+    if (protocol) {
+        ret = url.slice(protocol.length);
+        const idx: number = ret.indexOf('/');
+        if (idx !== -1) {
+            ret = ret.slice(idx);
         }
     }
+
     return ret;
 }
 
@@ -90,16 +88,18 @@ export function extractFullDomain(url: string): string {
         return null;
     }
     const parsedUrl = parse(url);
-    if (domainIsIP(parsedUrl.hostname)  || parsedUrl.hostname === 'localhost') {
+
+    if (domainIsIP(parsedUrl.hostname) || parsedUrl.hostname === 'localhost') {
         return parsedUrl.hostname;
     } else {
-        if(parsedUrl.subdomain) {
+        if (parsedUrl.subdomain) {
             return `${parsedUrl.subdomain}.${parsedUrl.domain}`
         } else {
             return parsedUrl.domain;
         }
     }
 }
+
 export function extractNakedDomain(url: string): string {
     const fullDomain = extractFullDomain(url);
     if (!url) {
@@ -113,7 +113,7 @@ export function extractRootDomain(url: string): string {
         return null;
     }
     const parsedUrl = parse(url);
-    if (domainIsIP(parsedUrl.hostname)  || parsedUrl.hostname === 'localhost') {
+    if (domainIsIP(parsedUrl.hostname) || parsedUrl.hostname === 'localhost') {
         return parsedUrl.hostname;
     } else {
         return parsedUrl.domain;
@@ -152,7 +152,7 @@ export function extractUrlHash(url: string): string {
         return null;
     }
     const idx = url.indexOf('#') + 1;
-    const hash = url.slice(idx)
+    const hash = url.slice(idx);
     if (url === hash) {
         return null;
     }
@@ -220,4 +220,63 @@ export function isUrlWithDomain(url: string): boolean {
 
 export function isUrl(url: string): boolean {
     return isUrlWithDomain(url) || isUrlWithIP(url);
+}
+
+/**
+ * Finds the protocol with which the URL starts from a predefined list of the possible protocols
+ */
+export function findUsedProtocol(url: string): string {
+    return protocols.find(protocol => url.startsWith(protocol));
+}
+
+/**
+ * Loose check if the URL starts with one of the known protocols [http://, https://, ftp://, file://, afp://, smb://]
+ * This method does not strictly check the validity of a URL
+ * If you need to check the validity of the URL please refer to isUrl method
+ */
+export function urlContainsProtocol(url: string): boolean {
+    if (!url) {
+        return false;
+    }
+
+    return findUsedProtocol(url) !== undefined;
+}
+
+/**
+ * Omits the query string from a URL
+ * Examples :
+ * http://example.com/over/there?name=ferret -> http://example.com/over/there
+ * http://example.com/path/to/page?name=ferret&color=purple -> http://example.com/path/to/page
+ */
+export function omitQueryStringFromUrl(url: string): string | null {
+    if (!url) {
+        return null;
+    }
+
+    const queryStringStart = url.indexOf('?');
+    if (queryStringStart < 0) {
+        return url;
+    }
+
+    return url.slice(0, queryStringStart);
+}
+
+/**
+ * Omits the credentials from URLs with the following format : http://username:password@example.com
+ * Example: http://username:password@example.com -> http://example.com
+ */
+export function omitCredentialsFromUrl(url: string): string | null {
+    if (!url) {
+        return null;
+    }
+
+    const separatorIndex = url.indexOf('@');
+    if (separatorIndex < 0) {
+        return url;
+    }
+
+    const protocol = findUsedProtocol(url);
+    const domain = url.slice(separatorIndex + 1);
+
+    return `${protocol}${domain}`;
 }
