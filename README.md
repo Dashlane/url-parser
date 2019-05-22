@@ -21,10 +21,14 @@ Lightweight module used to parse URLs, so that information such as the domain ca
 - `function extractRootDomainName(url: string): string;`
 - `function getParsedUrl(url: string): ParsedUrl;`
 - `function isUrlWithIPv4(url: string): boolean;`
-- `function isUrlWithIPv6(url: string): booleam;`
+- `function isUrlWithIPv6(url: string): boolean;`
 - `function isUrlWithIP(url: string): boolean;`
-- `function isUrlWithDomain(url: string): booleam;`
+- `function isUrlWithDomain(url: string): boolean;`
 - `function isUrl(url: string): booleam;`
+- `function findUsedProtocol(url: string): string | undefined;`
+- `function urlContainsProtocol(url: string): boolean;`
+- `function omitQueryStringFromUrl(url: string): string | null;`
+- `function omitCredentialsFromUrl(url: string): string | null;`
 
 ```typescript
 export interface ParsedUrl {
@@ -40,8 +44,8 @@ export interface ParsedUrl {
 ### Examples
 
 
-```typescript
-import * as UrlUtils from './url-parser';
+```javascript
+import * as UrlUtils from './ts/lib/url-parser';
 
 UrlUtils.extractFilepathFromUrl(`http://toto.com/my/toto/images/latete.jpg`); // -> /my/toto/images/latete.jpg
 UrlUtils.extractFilepathFromUrl(`https://toto.com/my/toto/images/latete.jpg`); // -> /my/toto/images/latete.jpg

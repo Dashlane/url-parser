@@ -220,7 +220,7 @@ export function isUrl(url: string): boolean {
 /**
  * Finds the protocol with which the URL starts from a predefined list of the possible protocols
  */
-export function findUsedProtocol(url: string): string {
+export function findUsedProtocol(url: string): string | undefined {
     return protocols.find(protocol => url.startsWith(protocol));
 }
 
