@@ -1,7 +1,7 @@
 CHANGELOG.md
 ============
 
-WIP
+3.4.0
 -----
 * Add additional validations for a secure URL : `urlContainsProtocol`, `omitCredentialsFromUrl` and `omitQueryStringFromUrl` 
 * Improve `isUrl`
