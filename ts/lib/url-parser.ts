@@ -49,6 +49,21 @@ function domainIsIPv6(hostname: string): boolean {
     return checkFormat && checkBytes;
 }
 
+/**
+ * Domains don't make sense for other protocols then http & https.
+ * We don't want file://google.com/login.html to be consider as a google.com domain.
+ */
+function isHttp(url: string): boolean {
+    // If there is no protocol, it's implicitly http.
+    if (!urlContainsProtocol(url)) {
+        return true;
+    }
+    const validProtocols = ['http://', 'https://'];
+    const usedProtocol = findUsedProtocol(url);
+
+    return validProtocols.indexOf(usedProtocol) > -1;
+}
+
 function domainIsIP(hostname: string): boolean {
     if (!hostname) {
         return false;
@@ -84,7 +99,7 @@ export function extractFullFilepathFromUrl(url: string): string {
 }
 
 export function extractFullDomain(url: string): string {
-    if (!url) {
+    if (!url || !isHttp(url)) {
         return null;
     }
     const parsedUrl = parse(url);
@@ -102,14 +117,14 @@ export function extractFullDomain(url: string): string {
 
 export function extractNakedDomain(url: string): string {
     const fullDomain = extractFullDomain(url);
-    if (!url) {
+    if (!url || !isHttp(url)) {
         return null;
     }
     return fullDomain.replace(/^www\./, '');
 }
 
 export function extractRootDomain(url: string): string {
-    if (!url) {
+    if (!url || !isHttp(url)) {
         return null;
     }
     const parsedUrl = parse(url);
@@ -121,7 +136,7 @@ export function extractRootDomain(url: string): string {
 }
 
 export function extractRootDomainName(url: string): string {
-    if (!url) {
+    if (!url || !isHttp(url)) {
         return null;
     }
     const parsedUrl = parse(url);
@@ -135,7 +150,7 @@ export function extractRootDomainName(url: string): string {
 }
 
 export function extractSubDomainName(url: string): string {
-    if (!url) {
+    if (!url || !isHttp(url)) {
         return null;
     }
     const parsedUrl = parse(url);
@@ -205,7 +220,7 @@ export function isUrlWithIP(url: string): boolean {
 }
 
 export function isUrlWithDomain(url: string): boolean {
-    if (!url) {
+    if (!url || !isHttp(url)) {
         return false;
     }
 

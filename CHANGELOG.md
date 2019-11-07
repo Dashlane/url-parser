@@ -5,6 +5,7 @@ WIP
 -----
 * Add additional validations for a secure URL : `urlContainsProtocol`, `omitCredentialsFromUrl` and `omitQueryStringFromUrl` 
 * Improve `isUrl`
+* Only extract domain if url protocol is http or https
 
 3.3.0
 -----

@@ -140,6 +140,11 @@ describe('UrlUtils', () => {
             (UrlUtils.extractRootDomain('') === null).should.be.True();
         });
 
+        it('should return null when url is not http', () => {
+            const url = 'file://google.com/login.html';
+            (UrlUtils.extractRootDomain(url) === null).should.be.True();
+        });
+
     });
 
     describe('extractRootDomainName', () => {
