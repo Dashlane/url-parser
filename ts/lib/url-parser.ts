@@ -91,13 +91,23 @@ export function extractFullDomain(url: string): string {
 
     if (domainIsIP(parsedUrl.hostname) || parsedUrl.hostname === 'localhost') {
         return parsedUrl.hostname;
-    } else {
-        if (parsedUrl.subdomain) {
-            return `${parsedUrl.subdomain}.${parsedUrl.domain}`
-        } else {
-            return parsedUrl.domain;
-        }
     }
+    if (parsedUrl.subdomain) {
+        return `${parsedUrl.subdomain}.${parsedUrl.domain}`
+    }
+    if (parsedUrl.domain) {
+        return parsedUrl.domain;
+    }
+
+    // If none of the cases above allowed to return,
+    // then we are trying to parse an url that is not supported by tldts (ex. http://url-without-extension)
+    // let's use the URL api to parse it
+    const parsedUrlWithUrlApi = new URL(url);
+    if (parsedUrlWithUrlApi.hostname) {
+        return parsedUrlWithUrlApi.hostname
+    }
+
+    return null;
 }
 
 export function extractNakedDomain(url: string): string {
@@ -115,9 +125,19 @@ export function extractRootDomain(url: string): string {
     const parsedUrl = parse(url);
     if (domainIsIP(parsedUrl.hostname) || parsedUrl.hostname === 'localhost') {
         return parsedUrl.hostname;
-    } else {
+    }
+    if (parsedUrl.domain) {
         return parsedUrl.domain;
     }
+
+    // If none of the cases above allowed to return,
+    // then we may be trying to parse an url that is not supported by tldts (ex. http://url-without-extension)
+    // let's use the URL api to parse it
+    const parsedUrlWithUrlApi = new URL(url);
+    if (parsedUrlWithUrlApi.hostname) {
+        return parsedUrlWithUrlApi.hostname
+    }
+    return null;
 }
 
 export function extractRootDomainName(url: string): string {
@@ -127,11 +147,23 @@ export function extractRootDomainName(url: string): string {
     const parsedUrl = parse(url);
     if (domainIsIP(parsedUrl.hostname) || parsedUrl.hostname === 'localhost') {
         return parsedUrl.hostname;
-    } else {
-        return (parsedUrl.publicSuffix && parsedUrl.domain) ?
-            parsedUrl.domain.substring(0, parsedUrl.domain.indexOf(`.${parsedUrl.publicSuffix}`)) :
-            parsedUrl.domain;
     }
+    if (parsedUrl.domain) {
+        if (parsedUrl.publicSuffix) {
+            return parsedUrl.domain.substring(0, parsedUrl.domain.indexOf(`.${parsedUrl.publicSuffix}`));
+        }
+        return parsedUrl.domain;
+    }
+
+    // If none of the cases above allowed to return,
+    // then we are trying to parse an url that is not supported by tldts (ex. http://url-without-extension)
+    // let's use the URL api to parse it
+    const parsedUrlWithUrlApi = new URL(url);
+    if (parsedUrlWithUrlApi.hostname) {
+        return parsedUrlWithUrlApi.hostname;
+    }
+
+    return null;
 }
 
 export function extractSubDomainName(url: string): string {

@@ -307,16 +307,6 @@ describe('UrlUtils', () => {
 
     describe('getParsedUrl', () => {
 
-        it('should not throw when provided with an url without an extension', () => {
-            const url = 'http://notvalid';
-            const parsedUrl = UrlUtils.getParsedUrl(url);
-            parsedUrl.url.should.eql(url);
-            (parsedUrl.fullDomain === null).should.be.True();
-            (parsedUrl.rootDomain === null).should.be.True();
-            (parsedUrl.rootDomainName === null).should.be.True();
-            (parsedUrl.urlHash === null).should.be.True();
-        });
-
         it('should correctly parse an url', () => {
             const url = 'https://s3-eu-west-1.amazonaws.com/dashlane-static-resources/webTesting/signin_prompt.html';
             const parsedUrl = UrlUtils.getParsedUrl(url);
@@ -324,6 +314,18 @@ describe('UrlUtils', () => {
             parsedUrl.fullDomain.should.eql('s3-eu-west-1.amazonaws.com');
             parsedUrl.rootDomain.should.eql('amazonaws.com');
             parsedUrl.rootDomainName.should.eql('amazonaws');
+            (parsedUrl.urlHash === null).should.be.True();
+        });
+
+        it('should correctly parse an url without an extension', () => {
+            const url = 'http://url-without-extension/login';
+            const parsedUrl = UrlUtils.getParsedUrl(url);
+            console.log('get Parsed URL output:');
+            console.log(parsedUrl);
+            parsedUrl.url.should.eql(url);
+            parsedUrl.fullDomain.should.eql('url-without-extension');
+            parsedUrl.rootDomain.should.eql('url-without-extension');
+            parsedUrl.rootDomainName.should.eql('url-without-extension');
             (parsedUrl.urlHash === null).should.be.True();
         });
 
