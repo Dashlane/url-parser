@@ -16,7 +16,7 @@ describe('UrlUtils', () => {
             UrlUtils.extractFilepathFromUrl(url).should.eql('/a/b/c/url/lol.png');
         });
 
-        it('should correctly replace all known protocols', () => {
+        it('should correctly extract the file path with known protocols', () => {
             const base = '/my/toto/images/latete.jpg';
             const domain = 'toto.com';
             UrlUtils.extractFilepathFromUrl(`http://${domain}${base}`).should.eql(base);
@@ -27,7 +27,7 @@ describe('UrlUtils', () => {
             UrlUtils.extractFilepathFromUrl(`smb://${domain}${base}`).should.eql(base);
         });
 
-        it('should not do anything to urls with unknown protocols', () => {
+        it('should return the whole urls with unknown protocols', () => {
             const url = 'toto.com/my/toto/images/latete.jpg';
             UrlUtils.extractFilepathFromUrl(`unmht://${url}`).should.eql(`unmht://${url}`);
             UrlUtils.extractFilepathFromUrl(`toto://${url}`).should.eql(`toto://${url}`);
