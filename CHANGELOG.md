@@ -1,7 +1,10 @@
 CHANGELOG.md
 ============
+3.5.0
+-----
+* Add support for url without extension
 
-WIP
+3.4.0
 -----
 * Add additional validations for a secure URL : `urlContainsProtocol`, `omitCredentialsFromUrl` and `omitQueryStringFromUrl` 
 * Improve `isUrl`
