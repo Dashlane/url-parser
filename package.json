@@ -17,7 +17,7 @@
     "test": "TS_NODE_COMPILER_OPTIONS='{\"target\":\"es6\"}' mocha -r ts-node/register ts/**/*.test.ts",
     "test-watch": "npm test -- --watch-extensions ts --watch",
     "ci": "npm test && npm audit",
-    "prepublish": "npm build && npm test"
+    "prepublish": "npm run build && npm test"
   },
   "repository": {
     "type": "git",
