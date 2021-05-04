@@ -1,6 +1,6 @@
 {
   "name": "@dashlane/simple-url-parser",
-  "version": "3.4.0",
+  "version": "3.5.0",
   "description": "A small module to parse URLs",
   "main": "js/index.js",
   "files": [
@@ -17,7 +17,7 @@
     "test": "TS_NODE_COMPILER_OPTIONS='{\"target\":\"es6\"}' mocha -r ts-node/register ts/**/*.test.ts",
     "test-watch": "npm test -- --watch-extensions ts --watch",
     "ci": "npm test && npm audit",
-    "prepublish": "npm build && npm test"
+    "prepublish": "npm run build && npm test"
   },
   "repository": {
     "type": "git",
@@ -29,9 +29,9 @@
     "@types/mocha": "^5.2.6",
     "@types/should": "^13.0.0",
     "husky": "^2.1.0",
-    "mocha": "^5.2.0",
+    "mocha": "^8.3.2",
     "should": "^13.2.3",
-    "ts-node": "^7.0.1",
+    "ts-node": "^9.1.1",
     "typescript": "^3.3.3333"
   },
   "publishConfig": {
@@ -42,7 +42,7 @@
   },
   "homepage": "https://github.com/Dashlane/url-parser#readme",
   "dependencies": {
-    "tldts": "^4.0.6"
+    "tldts": "^5.7.33"
   },
   "keywords": [
     "url-parser",

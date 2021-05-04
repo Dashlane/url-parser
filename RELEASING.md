@@ -7,11 +7,12 @@ Publishing a new version
 -------------------------
 
 
-### Before merging into master
+### 1- Update the CHANGELOG.md
 
-Please update `CHANGELOG.md` by write changes introduced.
+The `CHANGELOG.md` is not automatically updated.
+You need to manually rename the WIP section into the version you are going to release. 
 
-### After merging into master
+### 2- Create the release
 
 Once your Pull Request has been merged, you can pull the latest `master` on your machine
 and run `npm version major|minor|patch`.
@@ -22,6 +23,8 @@ and run `npm version major|minor|patch`.
 
 
 Running this npm task will bump the `package.json` version and create `git` tag.
+
+### 3- Push and publish the release
 
 Then you can push and publish the update :
 

@@ -1,7 +1,12 @@
 CHANGELOG.md
 ============
+3.5.0
+-----
+* Add support for urls without extension
+* Update tldts to 5.7.33
+* Update mocha and ts-node to 9.1.1
 
-WIP
+3.4.0
 -----
 * Add additional validations for a secure URL : `urlContainsProtocol`, `omitCredentialsFromUrl` and `omitQueryStringFromUrl` 
 * Improve `isUrl`

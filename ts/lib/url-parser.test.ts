@@ -16,7 +16,7 @@ describe('UrlUtils', () => {
             UrlUtils.extractFilepathFromUrl(url).should.eql('/a/b/c/url/lol.png');
         });
 
-        it('should correctly replace all known protocols', () => {
+        it('should correctly extract the file path with known protocols', () => {
             const base = '/my/toto/images/latete.jpg';
             const domain = 'toto.com';
             UrlUtils.extractFilepathFromUrl(`http://${domain}${base}`).should.eql(base);
@@ -27,7 +27,7 @@ describe('UrlUtils', () => {
             UrlUtils.extractFilepathFromUrl(`smb://${domain}${base}`).should.eql(base);
         });
 
-        it('should not do anything to urls with unknown protocols', () => {
+        it('should return the whole urls with unknown protocols', () => {
             const url = 'toto.com/my/toto/images/latete.jpg';
             UrlUtils.extractFilepathFromUrl(`unmht://${url}`).should.eql(`unmht://${url}`);
             UrlUtils.extractFilepathFromUrl(`toto://${url}`).should.eql(`toto://${url}`);
@@ -307,16 +307,6 @@ describe('UrlUtils', () => {
 
     describe('getParsedUrl', () => {
 
-        it('should not throw when provided with an url without an extension', () => {
-            const url = 'http://notvalid';
-            const parsedUrl = UrlUtils.getParsedUrl(url);
-            parsedUrl.url.should.eql(url);
-            (parsedUrl.fullDomain === null).should.be.True();
-            (parsedUrl.rootDomain === null).should.be.True();
-            (parsedUrl.rootDomainName === null).should.be.True();
-            (parsedUrl.urlHash === null).should.be.True();
-        });
-
         it('should correctly parse an url', () => {
             const url = 'https://s3-eu-west-1.amazonaws.com/dashlane-static-resources/webTesting/signin_prompt.html';
             const parsedUrl = UrlUtils.getParsedUrl(url);
@@ -324,6 +314,16 @@ describe('UrlUtils', () => {
             parsedUrl.fullDomain.should.eql('s3-eu-west-1.amazonaws.com');
             parsedUrl.rootDomain.should.eql('amazonaws.com');
             parsedUrl.rootDomainName.should.eql('amazonaws');
+            (parsedUrl.urlHash === null).should.be.True();
+        });
+
+        it('should correctly parse an url without an extension', () => {
+            const url = 'http://url-without-extension/login';
+            const parsedUrl = UrlUtils.getParsedUrl(url);
+            parsedUrl.url.should.eql(url);
+            parsedUrl.fullDomain.should.eql('url-without-extension');
+            parsedUrl.rootDomain.should.eql('url-without-extension');
+            parsedUrl.rootDomainName.should.eql('url-without-extension');
             (parsedUrl.urlHash === null).should.be.True();
         });
 
