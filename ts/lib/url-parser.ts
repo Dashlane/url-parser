@@ -89,9 +89,7 @@ export function extractFullDomain(url: string): string {
     }
     const parsedUrl = parse(url);
 
-    if (domainIsIP(parsedUrl.hostname) // the url is an IP address
-        || parsedUrl.hostname === 'localhost' // the url is a localhost
-        || parsedUrl.hostname === parsedUrl.publicSuffix) { // the url has no extension (ex. http://url-without-extension)
+    if (domainIsIP(parsedUrl.hostname) || parsedUrl.hostname === 'localhost') {
         return parsedUrl.hostname;
     }
     if (parsedUrl.subdomain) {
@@ -99,6 +97,14 @@ export function extractFullDomain(url: string): string {
     }
     if (parsedUrl.domain) {
         return parsedUrl.domain;
+    }
+
+    // If none of the cases above allowed to return,
+    // then we are trying to parse an url that is not supported by tldts (ex. http://url-without-extension)
+    // let's use the URL api to parse it
+    const parsedUrlWithUrlApi = new URL(url);
+    if (parsedUrlWithUrlApi.hostname) {
+        return parsedUrlWithUrlApi.hostname
     }
 
     return null;
@@ -117,15 +123,20 @@ export function extractRootDomain(url: string): string {
         return null;
     }
     const parsedUrl = parse(url);
-    if (domainIsIP(parsedUrl.hostname) // the url is an IP address
-        || parsedUrl.hostname === 'localhost' // the url is a localhost
-        || parsedUrl.hostname === parsedUrl.publicSuffix) { // the url has no extension (ex. http://url-without-extension)
+    if (domainIsIP(parsedUrl.hostname) || parsedUrl.hostname === 'localhost') {
         return parsedUrl.hostname;
     }
     if (parsedUrl.domain) {
         return parsedUrl.domain;
     }
 
+    // If none of the cases above allowed to return,
+    // then we may be trying to parse an url that is not supported by tldts (ex. http://url-without-extension)
+    // let's use the URL api to parse it
+    const parsedUrlWithUrlApi = new URL(url);
+    if (parsedUrlWithUrlApi.hostname) {
+        return parsedUrlWithUrlApi.hostname
+    }
     return null;
 }
 
@@ -134,9 +145,7 @@ export function extractRootDomainName(url: string): string {
         return null;
     }
     const parsedUrl = parse(url);
-    if (domainIsIP(parsedUrl.hostname) // the url is an IP address
-        || parsedUrl.hostname === 'localhost' // the url is a localhost
-        || parsedUrl.hostname === parsedUrl.publicSuffix) { // the url has no extension (ex. http://url-without-extension)
+    if (domainIsIP(parsedUrl.hostname) || parsedUrl.hostname === 'localhost') {
         return parsedUrl.hostname;
     }
     if (parsedUrl.domain) {
@@ -144,6 +153,14 @@ export function extractRootDomainName(url: string): string {
             return parsedUrl.domain.substring(0, parsedUrl.domain.indexOf(`.${parsedUrl.publicSuffix}`));
         }
         return parsedUrl.domain;
+    }
+
+    // If none of the cases above allowed to return,
+    // then we are trying to parse an url that is not supported by tldts (ex. http://url-without-extension)
+    // let's use the URL api to parse it
+    const parsedUrlWithUrlApi = new URL(url);
+    if (parsedUrlWithUrlApi.hostname) {
+        return parsedUrlWithUrlApi.hostname;
     }
 
     return null;

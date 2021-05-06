@@ -42,7 +42,7 @@
   },
   "homepage": "https://github.com/Dashlane/url-parser#readme",
   "dependencies": {
-    "tldts": "^5.7.33"
+    "tldts": "^4.0.6"
   },
   "keywords": [
     "url-parser",

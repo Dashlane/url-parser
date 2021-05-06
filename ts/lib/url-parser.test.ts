@@ -320,6 +320,8 @@ describe('UrlUtils', () => {
         it('should correctly parse an url without an extension', () => {
             const url = 'http://url-without-extension/login';
             const parsedUrl = UrlUtils.getParsedUrl(url);
+            console.log('get Parsed URL output:');
+            console.log(parsedUrl);
             parsedUrl.url.should.eql(url);
             parsedUrl.fullDomain.should.eql('url-without-extension');
             parsedUrl.rootDomain.should.eql('url-without-extension');
