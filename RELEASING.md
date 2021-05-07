@@ -29,4 +29,13 @@ Running this npm task will bump the `package.json` version and create `git` tag.
 Then you can push and publish the update :
 
 `git push --tags && git push`
-`npm publish`
+
+`npm publish` (no need to build before publishing, it is done automatically with the `prepublish` npm script)
+
+The `CHANGELOG.md` should be manually updated in order to replace `WIP` with the new created version
+
+Note: if you are releasing/publishing `url-parser` for the first time, please make sure:
+- to ask for temporary rights to push on master 
+- to ask for adding your npm user in the Dashlane npm organization
+- to activate [two-factor-authentication](https://docs.npmjs.com/configuring-two-factor-authentication) on your npm account  
+- to be authenticated on npm cli using [`npm adduser` or `npm login`](https://docs.npmjs.com/cli/adduser)
