@@ -1,5 +1,11 @@
 CHANGELOG.md
 ============
+
+3.6.0
+-----
+* Revert tldts to version 4.0.6
+* Add try/catch around calls to new URL()
+
 3.5.0
 -----
 * Add support for urls without extension
