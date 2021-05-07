@@ -102,12 +102,16 @@ export function extractFullDomain(url: string): string {
     // If none of the cases above allowed to return,
     // then we are trying to parse an url that is not supported by tldts (ex. http://url-without-extension)
     // let's use the URL api to parse it
-    const parsedUrlWithUrlApi = new URL(url);
-    if (parsedUrlWithUrlApi.hostname) {
-        return parsedUrlWithUrlApi.hostname
-    }
+    try {
+        const parsedUrlWithUrlApi = new URL(url);
+        if (parsedUrlWithUrlApi.hostname) {
+            return parsedUrlWithUrlApi.hostname
+        }
+        return null;
+    } catch {
+        return null;
 
-    return null;
+    }
 }
 
 export function extractNakedDomain(url: string): string {
@@ -133,11 +137,16 @@ export function extractRootDomain(url: string): string {
     // If none of the cases above allowed to return,
     // then we may be trying to parse an url that is not supported by tldts (ex. http://url-without-extension)
     // let's use the URL api to parse it
-    const parsedUrlWithUrlApi = new URL(url);
-    if (parsedUrlWithUrlApi.hostname) {
-        return parsedUrlWithUrlApi.hostname
+    try {
+        const parsedUrlWithUrlApi = new URL(url);
+        if (parsedUrlWithUrlApi.hostname) {
+            return parsedUrlWithUrlApi.hostname
+        }
+        return null;
+    } catch {
+        return null;
+
     }
-    return null;
 }
 
 export function extractRootDomainName(url: string): string {
@@ -158,12 +167,15 @@ export function extractRootDomainName(url: string): string {
     // If none of the cases above allowed to return,
     // then we are trying to parse an url that is not supported by tldts (ex. http://url-without-extension)
     // let's use the URL api to parse it
-    const parsedUrlWithUrlApi = new URL(url);
-    if (parsedUrlWithUrlApi.hostname) {
-        return parsedUrlWithUrlApi.hostname;
+    try {
+        const parsedUrlWithUrlApi = new URL(url);
+        if (parsedUrlWithUrlApi.hostname) {
+            return parsedUrlWithUrlApi.hostname;
+        }
+        return null;
+    } catch {
+        return null;
     }
-
-    return null;
 }
 
 export function extractSubDomainName(url: string): string {
