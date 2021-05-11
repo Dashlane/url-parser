@@ -1,5 +1,10 @@
 CHANGELOG.md
 ============
+
+3.5.1
+-----
+* Limit support of urls without extension to urls starting with 'http://' or 'https://'
+
 3.5.0
 -----
 * Add support for urls without extension

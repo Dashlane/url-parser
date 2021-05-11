@@ -82,6 +82,9 @@ export function extractFullFilepathFromUrl(url: string): string {
 
     return ret;
 }
+function startWithHttp(url: string): boolean {
+    return url.startsWith('http://') || url.startsWith('https://')
+}
 
 export function extractFullDomain(url: string): string {
     if (!url) {
@@ -91,7 +94,7 @@ export function extractFullDomain(url: string): string {
 
     if (domainIsIP(parsedUrl.hostname) // the url is an IP address
         || parsedUrl.hostname === 'localhost' // the url is a localhost
-        || parsedUrl.hostname === parsedUrl.publicSuffix) { // the url has no extension (ex. http://url-without-extension)
+        || parsedUrl.hostname === parsedUrl.publicSuffix && startWithHttp(url)) { // the url has no extension but still start with 'http' (ex. http://url-without-extension)
         return parsedUrl.hostname;
     }
     if (parsedUrl.subdomain) {
@@ -119,7 +122,7 @@ export function extractRootDomain(url: string): string {
     const parsedUrl = parse(url);
     if (domainIsIP(parsedUrl.hostname) // the url is an IP address
         || parsedUrl.hostname === 'localhost' // the url is a localhost
-        || parsedUrl.hostname === parsedUrl.publicSuffix) { // the url has no extension (ex. http://url-without-extension)
+        || parsedUrl.hostname === parsedUrl.publicSuffix && startWithHttp(url)) { // the url has no extension but still start with 'http' (ex. http://url-without-extension)
         return parsedUrl.hostname;
     }
     if (parsedUrl.domain) {
@@ -136,7 +139,7 @@ export function extractRootDomainName(url: string): string {
     const parsedUrl = parse(url);
     if (domainIsIP(parsedUrl.hostname) // the url is an IP address
         || parsedUrl.hostname === 'localhost' // the url is a localhost
-        || parsedUrl.hostname === parsedUrl.publicSuffix) { // the url has no extension (ex. http://url-without-extension)
+        || parsedUrl.hostname === parsedUrl.publicSuffix && startWithHttp(url)) { // the url has no extension but still start with 'http' (ex. http://url-without-extension)
         return parsedUrl.hostname;
     }
     if (parsedUrl.domain) {
